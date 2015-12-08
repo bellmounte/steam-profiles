@@ -1,9 +1,11 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var babel = require('gulp-babel');
 var jshint = require('gulp-jshint');
 var minifycss = require('gulp-minify-css');
 var rename = require('gulp-rename');
+var path = require("path");
+var webpack = require("webpack");
+
 
 var jshint_config = {
 	bitwise: true,
@@ -53,10 +55,20 @@ gulp.task('jshint', function () {
 		.pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('js', ['jshint'], function () {
-	return gulp.src('src/scripts/app.js')
-		.pipe(babel())
-		.pipe(gulp.dest('public/js'));
+gulp.task('js', ['jshint'], function (callback) {
+
+	webpack({
+        entry: './src/scripts/app.js',
+        output: {
+        	path: path.join(__dirname, 'public/js/'),
+    		filename: 'app.js'
+        }
+    }, function(err, stats) {
+        if (err) {
+        	console.error('Webpack error:', err);
+        }
+        callback();
+    });
 });
 
 gulp.task('watch', ['default'], function() {
