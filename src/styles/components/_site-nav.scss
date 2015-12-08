@@ -1,0 +1,33 @@
+.site-nav {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.site-nav-list {
+	background: rgba(48, 95, 128, 1);
+    display: inline-block;
+
+	.nav-item {
+		+ .nav-item {
+			border-left: 1px solid #000;
+		}
+
+		.nav-item-button {
+			color: #67c1f5;
+			font-size: 1rem;
+			line-height: 2rem;
+			padding: 0 1rem;
+
+			&:hover {
+				background: #67c1f5;
+				color: #ffffff;
+			}
+		}
+	}
+}
+
+.nav-item {
+	display: inline-block;
+	list-style-type: none;
+    text-align: center;
+}

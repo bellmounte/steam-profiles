@@ -1,3 +1,18 @@
 html {
-	background: #1b2838;
+	background: #171a21;
+	box-sizing: border-box;
+	color: #c6d4df;
+}
+body {
+	font: 16px Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+button {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	outline: none;
 }
