@@ -47,7 +47,7 @@ gulp.task('js', ['jshint'], function () {
 });
 
 gulp.task('watch', ['default'], function() {
-	gulp.watch('src/*.htm', ['htm']);
+	gulp.watch('src/*.htm', ['html']);
 	gulp.watch('src/scripts/**/*.js', ['js']);
 	gulp.watch('src/styles/**/*.scss', ['css']);
 });
