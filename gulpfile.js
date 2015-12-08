@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var babel = require('gulp-babel');
 var jshint = require('gulp-jshint');
+var minifycss = require('gulp-minify-css');
+var rename = require('gulp-rename');
 
 var jshint_config = {
 	bitwise: true,
@@ -23,6 +25,13 @@ var jshint_config = {
 
 gulp.task('default', ['html', 'css', 'js'], function() {});
 
+function handleErrors () {
+	var args = Array.prototype.slice.call(arguments);
+  	console.log('Compile Error: ', args);
+	// Keep gulp from hanging on this task
+	this.emit('end');
+};
+
 gulp.task('html', function() {
 	gulp.src('src/*.htm*')
 		.pipe(gulp.dest('public'));
@@ -31,6 +40,10 @@ gulp.task('html', function() {
 gulp.task('css', function() {
 	return gulp.src('src/styles/**/*.scss')
 		.pipe(sass())
+		.on('error', handleErrors)
+		.pipe(gulp.dest('public/css'))
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(minifycss())
 		.pipe(gulp.dest('public/css'));
 });
 
