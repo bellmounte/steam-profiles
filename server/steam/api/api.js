@@ -54,13 +54,12 @@
 	module.exports = {
 		getGameInfo: function (args, callback) {
 			var appid = args.appid;
-			if (!games[appid]) {
+			if (games[appid]) {
+				callback(games[appid]);
+			} else {
 				this.updateGameInfo (args, function (result) {
-					// Can I assume games[appid] will now be populated?
 					callback(result);
 				});
-			} else {
-				callback(games[appid]);
 			}
 		},
 		updateGameInfo: function (args, callback) {
@@ -82,10 +81,13 @@
 
 						if (game) { // Does this need an else error check?
 							if (!games[appid]) {
-								games[appid] = {};
+								games[appid] = {
+									owners: []
+								};
 							}
 
 							// Add new data from server, don't overwrite the node.
+							games[appid].appid = appid;
 							games[appid].gameName = game.gameName;
 							games[appid].achievements = game.availableGameStats.achievements;
 							games[appid].stats = game.availableGameStats.stats;

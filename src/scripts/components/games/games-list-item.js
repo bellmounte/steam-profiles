@@ -5,9 +5,7 @@
 
 	module.exports = React.createClass({
 		displayName: 'GamesListItem',
-		handleClick: function(/*ev*/) {
-			// ev.preventDefault();
-
+		handleClick: function() {
 			appDispatcher.dispatch({
 				action: 'game-list-item-update',
 				type: this.props.type,
@@ -32,12 +30,12 @@
 				React.DOM.li({className: 'game-list-item', onClick: this.handleClick},
 					React.DOM.div({className: 'game-info'},
 						React.DOM.img({ alt:this.props.name, src: this.props.img, className: 'game-logo' }),
-						React.DOM.span({className: 'game-title'}, this.props.name)
+						React.DOM.span({className: 'game-title'}, this.props.gameName)
 					),
 					trophy_info,
 					trophy_stats,
 					React.DOM.div({className: 'owner-info'},
-						React.DOM.div({className: 'info-value'}, this.props.owners),
+						React.DOM.div({className: 'info-value'}, ((this.props.owners) ? this.props.owners.length : 0)),
 						React.DOM.div({className: 'info-label'}, 'Owners')
 					)
 				)

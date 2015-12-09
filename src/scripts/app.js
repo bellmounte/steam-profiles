@@ -3,6 +3,7 @@
 
 	window.React = require('react');
 	window.ReactDOM = require('react-dom');
+	window.jQuery = require('./includes/jquery-2.1.4.min');
 
 	var React = window.React;
 	var ReactDOM = window.ReactDOM;

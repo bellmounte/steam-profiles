@@ -38,8 +38,8 @@
 
 			return React.createElement('div', {className: 'game'},
 				React.createElement('header', {className: 'game-header'},
-					React.createElement('h1', {className: 'game-name'}, game.name),
-					React.DOM.img({ alt:game.name, src: game.img, className: 'game-logo' })
+					React.DOM.h1({className: 'game-name'}, game.gameName),
+					React.DOM.img({ alt:game.gameName, src: game.img, className: 'game-logo' })
 				),
 				React.createElement('ul', {className: 'game-achievements'},
 					achievements
