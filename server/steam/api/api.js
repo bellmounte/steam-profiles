@@ -58,7 +58,7 @@
 				_games.push({
 					appid: game.appid,
 					gameName: game.gameName,
-					count_achievements: game.achievements.length,
+					count_achievements: (game.achievements) ? game.achievements.length : 0,
 					count_owners: game.owners.length,
 					average_completion: 0
 				});
@@ -103,8 +103,11 @@
 							// Add new data from server, don't overwrite the node.
 							games[appid].appid = Number(appid);
 							games[appid].gameName = game.gameName;
-							games[appid].achievements = game.availableGameStats.achievements;
-							games[appid].stats = game.availableGameStats.stats;
+
+							if (game.availableGameStats) {
+								games[appid].achievements = game.availableGameStats.achievements;
+								games[appid].stats = game.availableGameStats.stats;
+							}
 
 							// TODO: Get Acheivement stats
 
