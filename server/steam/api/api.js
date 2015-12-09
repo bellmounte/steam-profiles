@@ -52,6 +52,20 @@
 	var users = [];
 
 	module.exports = {
+		getGames: function (args, callback) {
+			var _games = [];
+			games.forEach(function (game) {
+				_games.push({
+					appid: game.appid,
+					gameName: game.gameName,
+					count_achievements: game.achievements.length,
+					count_owners: game.owners.length,
+					average_completion: 0
+				});
+			});
+
+			callback(_games);
+		},
 		getGameInfo: function (args, callback) {
 			var appid = args.appid;
 			if (games[appid]) {
@@ -87,7 +101,7 @@
 							}
 
 							// Add new data from server, don't overwrite the node.
-							games[appid].appid = appid;
+							games[appid].appid = Number(appid);
 							games[appid].gameName = game.gameName;
 							games[appid].achievements = game.availableGameStats.achievements;
 							games[appid].stats = game.availableGameStats.stats;

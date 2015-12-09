@@ -16,7 +16,7 @@
 
 			var trophy_info = (this.props.achievements) ?
 				React.DOM.div({className: 'trophy-info'},
-					React.DOM.div({className: 'info-value'}, this.props.achievements.length),
+					React.DOM.div({className: 'info-value'}, this.props.achievements),
 					React.DOM.div({className: 'info-label'}, 'Achievements')
 				) : null;
 
@@ -35,7 +35,7 @@
 					trophy_info,
 					trophy_stats,
 					React.DOM.div({className: 'owner-info'},
-						React.DOM.div({className: 'info-value'}, ((this.props.owners) ? this.props.owners.length : 0)),
+						React.DOM.div({className: 'info-value'}, ((this.props.owners) ? this.props.owners : 0)),
 						React.DOM.div({className: 'info-label'}, 'Owners')
 					)
 				)

@@ -11,6 +11,12 @@ app.get('/api/steam/game/:appid', function (req, res) {
 	});
 });
 
+app.get('/api/steam/games', function (req, res) {
+	api_steam.getGames(null, function (data) {
+		res.send(data);
+	});
+});
+
 var server = app.listen(3000, function () {
 	var host = server.address().address;
 	var port = server.address().port;

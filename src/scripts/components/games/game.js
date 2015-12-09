@@ -20,7 +20,6 @@
 	module.exports = React.createClass({
 		displayName: 'Game',
 		render: function () {
-			console.log(this.props.game);
 			var game = this.props.game;
 
 			var createAchievement = function (achievement) {
