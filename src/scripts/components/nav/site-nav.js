@@ -4,6 +4,7 @@
 	var NavItem = require('./nav-item');
 
 	module.exports = React.createClass({
+		displayName: 'SiteNav',
 		getInitialState: function () {
 			return {
 				items: [{

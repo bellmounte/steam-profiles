@@ -8,6 +8,7 @@
 	var UsersPage = require('./users/page');
 
 	module.exports = React.createClass({
+		displayName: 'Page',
 
 		getActivePage: function () {
 			switch (this.state.activePageUid) {
@@ -24,7 +25,7 @@
 
 		getInitialState: function() {
 			return {
-				activePageUid: 'home'
+				activePageUid: PageStore.getPage()
 			};
 		},
 

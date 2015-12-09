@@ -3,7 +3,9 @@
 
 	module.exports = React.createClass({
 		render: function () {
-			return React.createElement('div', {className: 'page page-users'}, 'User Page');
+			return React.createElement('div', {className: 'page page-users'},
+				React.DOM.h1({className: 'page-title' }, 'Users')
+			);
 		}
 	});
 

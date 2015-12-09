@@ -1,0 +1,66 @@
+$game-list-item-height: 69px;
+
+%game-list-item-info {
+	display: inline-block;
+	font-family: 'Open Sans', sans-serif;
+	height: $game-list-item-height;
+	vertical-align: top;
+}
+
+%game-list-item-info-column {
+	@extend %game-list-item-info;
+
+	padding: .75rem 0 0;
+	text-align: center;
+	width: 10%;
+
+	.info-value {
+		font-size: 1.35rem;
+	}
+	.info-label {
+		font-size: .85rem;
+	}
+}
+
+.games-list {
+	.game-list-item {
+	    background: rgba( 0, 0, 0, 0.2 );
+		padding: .5rem;
+		display: flex;
+		justify-content: space-between;
+
+		+ .game-list-item {
+			margin-top: .25rem;
+		}
+
+		.game-info {
+			@extend %game-list-item-info;
+
+			line-height: $game-list-item-height;
+			width: 60%;
+
+			.game-logo {
+				width: 184px;
+			}
+
+			.game-title {
+				display: inline-block;
+				font-size: 1.35rem;
+				margin-left: 1rem;
+				vertical-align: top;
+			}
+		}
+
+		.trophy-info {
+			@extend %game-list-item-info-column;
+		}
+
+		.trophy-stats {
+			@extend %game-list-item-info-column;
+		}
+
+		.owner-info {
+			@extend %game-list-item-info-column;
+		}
+	}
+}
