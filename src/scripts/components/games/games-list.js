@@ -1,4 +1,4 @@
-(function (React) {
+(function (React, $) {
 	'use strict';
 
 	var GameItem = require('./games-list-item');
@@ -10,12 +10,19 @@
 
 		getInitialState: function() {
 			return {
-				selectedGame: GamesStore.getSelectedGame()
+				selectedGame: GamesStore.getSelectedGame(),
+				games: []
 			};
 		},
 
 		componentDidMount: function() {
 			GamesStore.addChangeListener(this._onChange);
+
+			$.get('/api/steam/games', function(result) {
+				if (this.isMounted()) {
+					this.setState({games: result});
+				}
+			}.bind(this));
 		},
 
 		componentWillUnmount: function() {
@@ -42,12 +49,10 @@
 				return React.createElement(GameItem, item);
 			};
 
-			var games = GamesStore.getGames();
 			return React.createElement('ul', {className: 'games-list'},
-				games.map(createItem)
+				this.state.games.map(createItem)
 			);
-
 		}
 	});
 
-})(window.React);
+})(window.React, window.jQuery);
