@@ -1,4 +1,4 @@
-(function (React) {
+(function (React, $) {
 	'use strict';
 
 	var AchievementItem = React.createClass({
@@ -19,32 +19,49 @@
 
 	module.exports = React.createClass({
 		displayName: 'Game',
-		render: function () {
-			var game = this.props.game;
-
-			var createAchievement = function (achievement) {
-				achievement.type = 'achievement';
-				achievement.key = achievement.name;
-				achievement.uid = achievement.name;
-
-				return React.createElement(AchievementItem, achievement);
+		getInitialState: function() {
+			return {
+				game: null
 			};
+		},
+		componentDidMount: function() {
+			$.get('/api/steam/game/' + this.props.appid, function(result) {
+				if (this.isMounted()) {
+					this.setState({game: result});
+				}
+			}.bind(this));
+		},
+		render: function () {
 
-			var achievements;
-			if (game.achievements) {
-				achievements = game.achievements.map(createAchievement);
+			if (this.state.game) {
+				var game = this.state.game;
+
+				var createAchievement = function (achievement) {
+					achievement.type = 'achievement';
+					achievement.key = achievement.name;
+					achievement.uid = achievement.name;
+
+					return React.createElement(AchievementItem, achievement);
+				};
+
+				var achievements;
+				if (game.achievements) {
+					achievements = game.achievements.map(createAchievement);
+				}
+
+				return React.createElement('div', {className: 'game'},
+					React.createElement('header', {className: 'game-header'},
+						React.DOM.h1({className: 'game-name'}, game.gameName),
+						React.DOM.img({ alt:game.gameName, src: game.img, className: 'game-logo' })
+					),
+					React.createElement('ul', {className: 'game-achievements'},
+						achievements
+					)
+				);
+			} else {
+				return React.createElement('div', {className: 'game'}, 'Loading');
 			}
-
-			return React.createElement('div', {className: 'game'},
-				React.createElement('header', {className: 'game-header'},
-					React.DOM.h1({className: 'game-name'}, game.gameName),
-					React.DOM.img({ alt:game.gameName, src: game.img, className: 'game-logo' })
-				),
-				React.createElement('ul', {className: 'game-achievements'},
-					achievements
-				)
-			);
 		}
 	});
 
-})(window.React);
+})(window.React, window.jQuery);

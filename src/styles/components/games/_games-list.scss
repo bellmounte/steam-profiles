@@ -15,7 +15,7 @@ $game-list-item-height: 69px;
 	width: 10%;
 
 	.info-value {
-		font-size: 1.35rem;
+		font-size: 1.75rem;
 	}
 	.info-label {
 		font-size: .85rem;
@@ -40,6 +40,7 @@ $game-list-item-height: 69px;
 			width: 60%;
 
 			.game-logo {
+				height: 69px;
 				width: 184px;
 			}
 

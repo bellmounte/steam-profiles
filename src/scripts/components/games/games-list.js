@@ -35,10 +35,7 @@
 
 		render: function () {
 			if (this.state.selectedGame) {
-				var game = GamesStore.getGame(this.state.selectedGame);
-				if (game) {
-					return React.createElement(Game, {game: game});
-				}
+				return React.createElement(Game, {appid: this.state.selectedGame});
 			}
 
 			var createItem = function (item) {
