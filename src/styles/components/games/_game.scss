@@ -1,0 +1,53 @@
+
+.game-header {
+	margin-bottom: 1rem;
+
+	.game-name {
+		display: inline-block;
+		font-size: 3rem;
+	}
+
+	.game-logo {
+		display: inline-block;
+		float: right;
+	}
+
+	&:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+
+.game-achievements {
+
+	.achievement-item {
+		background: rgba( 0, 0, 0, 0.2 );
+		padding: .5rem;
+
+		+ .achievement-item {
+			margin-top: .25rem;
+		}
+
+
+		.achievement-logo {
+			display: inline-block;
+
+			.achievement-image {
+				height: 64px;
+				width: 64px;
+			}
+		}
+
+		.achievement-text {
+			display: inline-block;
+			margin-left: 1rem;
+			vertical-align: top;
+
+			.achievement-name {
+				padding: .25rem 0;
+				font-size: 1.35rem;
+			}
+		}
+	}
+}

@@ -28,21 +28,25 @@
 
 		render: function () {
 			if (this.state.selectedGame) {
-				return React.createElement('div', null, 'Test');
-			} else {
-				var createItem = function createItem(item) {
-					item.type = 'game-list';
-					item.key = item.appid;
-					item.uid = item.appid;
-
-					return React.createElement(GameItem, item);
-				};
-
-				var games = GamesStore.getGames();
-				return React.createElement('ul', {className: 'games-list'},
-					games.map(createItem)
-				);
+				var game = GamesStore.getGame(this.state.selectedGame);
+				if (game) {
+					return React.createElement(Game, {game: game});
+				}
 			}
+
+			var createItem = function (item) {
+				item.type = 'game-list';
+				item.key = item.appid;
+				item.uid = item.appid;
+
+				return React.createElement(GameItem, item);
+			};
+
+			var games = GamesStore.getGames();
+			return React.createElement('ul', {className: 'games-list'},
+				games.map(createItem)
+			);
+
 		}
 	});
 
