@@ -9,7 +9,9 @@
 	var games = [];
 	var users = [];
 
-	module.exports = {
+	var queue_games_achievements = [];
+
+	var API = {
 		getGames: function (args, callback) {
 			var _games = [];
 			games.forEach(function (game) {
@@ -161,6 +163,8 @@
 											games[appid] = {
 												owners: []
 											};
+
+											queue_games_achievements.push(appid);
 										}
 
 										if (!games[appid].appid) {
@@ -193,6 +197,11 @@
 								}
 
 								callback(users[steamid]);
+
+								while (queue_games_achievements.length > 0) {
+									var app_to_update = queue_games_achievements.shift();
+									API.updateGameInfo({appid: app_to_update} , function(){});
+								}
 							});
 						}
 					}
@@ -201,5 +210,7 @@
 				}
 			});
 		}
-	}
+	};
+
+	module.exports = API;
 })();
