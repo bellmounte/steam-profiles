@@ -1,6 +1,14 @@
 (function (React, $) {
 	'use strict';
 
+	function generateLogoSrc (props) {
+		return 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + props.appid + '/' + props.logo + '.jpg';
+	}
+
+	function generateDisplayName (props) {
+		return (props.displayName) ? props.displayName : props.gameName;
+	}
+
 	var AchievementItem = React.createClass({
 		displayName: 'AchievementItem',
 		render: function () {
@@ -51,8 +59,8 @@
 
 				return React.createElement('div', {className: 'game'},
 					React.createElement('header', {className: 'game-header'},
-						React.DOM.h1({className: 'game-name'}, game.gameName),
-						React.DOM.img({ alt:game.gameName, src: game.img, className: 'game-logo' })
+						React.DOM.h1({className: 'game-name'}, generateDisplayName(game)),
+						React.DOM.img({ alt:generateDisplayName(game), src: generateLogoSrc(game), className: 'game-logo' })
 					),
 					React.createElement('ul', {className: 'game-achievements'},
 						achievements

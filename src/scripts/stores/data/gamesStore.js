@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
 	'use strict';
 
 	var appDispatcher = require('../../dispatcher/AppDispatcher');
@@ -37,4 +37,4 @@
 
 	module.exports = GameStore;
 
-})(window.jQuery);
+})();

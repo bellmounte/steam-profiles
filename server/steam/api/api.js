@@ -1,51 +1,9 @@
 (function () {
 	'use strict';
 
-	var http = require('http');
-	var querystring = require('querystring');
 	var key = require('./accounts').steam.key;
 	var toJSON = require('../../util/toJSON');
-
-	function _getPathFromArgs (args) {
-		var params = (args.params) ? args.params : {};
-		return args.path + '?' + querystring.stringify(params);
-	}
-
-	function perform_request (args, callback) {
-
-		var hostname = 'api.steampowered.com';
-		var path = _getPathFromArgs(args);
-
-		console.log('making api request: ', hostname + path);
-
-		http.get({
-			host: hostname,
-			path: path
-		}, function (response) {
-			var error;
-			var body = '';
-
-			response.on('data', function (chunk) {
-				body += chunk;
-			});
-
-			response.on('error', function(e) {
-				error = e;
-			});
-
-			response.on('end', function () {
-				callback({
-					error: error,
-					data: body
-				});
-			});
-		}).on('error', function (e) {
-			console.log('http.request.error: ', e);
-			callback({
-				error: e
-			});
-		});
-	}
+	var perform_request = require('../../util/perform_request');
 
 	// Using local variables in case I don't have time to hook up a DB. Even then, I'll probably still want to use a LRU cache.
 	var games = [];
@@ -57,7 +15,10 @@
 			games.forEach(function (game) {
 				_games.push({
 					appid: game.appid,
+					displayName: game.displayName,
 					gameName: game.gameName,
+					icon: game.icon,
+					logo: game.logo,
 					count_achievements: (game.achievements) ? game.achievements.length : 0,
 					count_owners: game.owners.length,
 					average_completion: 0
@@ -85,7 +46,7 @@
 					key: key
 				}
 			}, function (result) {
-				console.log(result);
+				console.log('updateGameInfo', appid, result);
 
 				if (result.data) {
 					var data = toJSON(result.data);
@@ -101,7 +62,7 @@
 							}
 
 							// Add new data from server, don't overwrite the node.
-							games[appid].appid = Number(appid);
+							games[appid].appid = appid;
 							games[appid].gameName = game.gameName;
 
 							if (game.availableGameStats) {
@@ -112,6 +73,127 @@
 							// TODO: Get Acheivement stats
 
 							callback(games[appid]);
+						}
+					}
+				} else {
+					callback(toJSON(result.error));
+				}
+			});
+		},
+		getUsers: function (args, callback) {
+		},
+		getUserInfo: function (args, callback) {
+			var steamid = args.steamid;
+			if (users[steamid]) {
+				callback(users[steamid]);
+			} else {
+				this.updateUserInfo (args, function (result) {
+					callback(result);
+				});
+			}
+		},
+		updateUserInfo: function (args, callback) {
+			var steamid = args.steamid;
+			perform_request({
+				path: '/ISteamUser/GetPlayerSummaries/v0002/',
+				params: {
+					steamids: steamid,
+					key: key
+				}
+			}, function (result) {
+				console.log('updateUserInfo', steamid, result);
+
+				if (result.data) {
+					var data = toJSON(result.data);
+
+					if (data) { // Does this need an else error check?
+						var _users = data.response.players;
+
+						if (_users) { // Does this need an else error check?
+							_users.forEach(function (user) {
+
+								if (!users[steamid]) {
+									users[steamid] = {
+										games: []
+									}
+								}
+
+								users[steamid].steamid = user.steamid;
+								users[steamid].communityvisibilitystate = user.communityvisibilitystate;
+								users[steamid].profilestate = user.profilestate;
+								users[steamid].personaname = user.personaname;
+								users[steamid].lastlogoff = user.lastlogoff;
+								users[steamid].profileurl = user.profileurl;
+								users[steamid].avatar = user.avatar;
+								users[steamid].avatarmedium = user.avatarmedium;
+								users[steamid].avatarfull = user.avatarfull;
+								users[steamid].personastate = user.personastate;
+								users[steamid].realname = user.realname;
+								users[steamid].primaryclanid = user.primaryclanid;
+								users[steamid].timecreated = user.timecreated;
+								users[steamid].personastateflags = user.personastateflags;
+								users[steamid].loccountrycode = user.loccountrycode;
+								users[steamid].locstatecode = user.locstatecode;
+								users[steamid].loccityid = user.loccityid;
+							});
+
+							perform_request({
+								path: '/IPlayerService/GetOwnedGames/v0001/',
+								params: {
+									steamid: steamid,
+									key: key,
+									include_appinfo: 1,
+									include_played_free_games: 1
+								}
+							}, function (result) {
+								console.log('updateUserInfo_games', steamid, result);
+
+								if (result.data) {
+									var data = toJSON(result.data);
+									var _games = data.response.games;
+
+									console.log('data:', data);
+
+									_games.forEach(function (game) {
+										var appid = game.appid;
+
+										if (!games[appid]) {
+											games[appid] = {
+												owners: []
+											};
+										}
+
+										if (!games[appid].appid) {
+											games[appid].appid = appid;
+										}
+
+										if (!games[appid].displayName) {
+											games[appid].displayName = game.name;
+										}
+
+										if (!games[appid].icon) {
+											games[appid].icon = game.img_icon_url;
+										}
+
+										if (!games[appid].logo) {
+											games[appid].logo = game.img_logo_url;
+										}
+
+										if (typeof games[appid].has_community_visible_stats === 'undefined') {
+											games[appid].has_community_visible_stats = game.has_community_visible_stats;
+										}
+
+										// TODO: Figure out a good way to store this data
+										// users[steamid].games[appid] = {
+										// 	appid: appid,
+										// 	playtime_2weeks: game.playtime_2weeks,
+										// 	playtime_forever: game.playtime_forever
+										// }
+									});
+								}
+
+								callback(users[steamid]);
+							});
 						}
 					}
 				} else {

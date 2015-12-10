@@ -3,6 +3,15 @@
 
 	var appDispatcher = require('../../dispatcher/AppDispatcher');
 
+	function generateLogoSrc (props) {
+		return 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + props.appid + '/' + props.logo + '.jpg';
+	}
+
+	function generateDisplayName (props) {
+		return (props.displayName) ? props.displayName : props.gameName;
+	}
+
+
 	module.exports = React.createClass({
 		displayName: 'GamesListItem',
 		handleClick: function() {
@@ -13,7 +22,6 @@
 			});
 		},
 		render: function () {
-
 			var trophy_info = (this.props.count_achievements) ?
 				React.DOM.div({className: 'trophy-info'},
 					React.DOM.div({className: 'info-value'}, this.props.count_achievements),
@@ -29,8 +37,8 @@
 			return (
 				React.DOM.li({className: 'game-list-item', onClick: this.handleClick},
 					React.DOM.div({className: 'game-info'},
-						React.DOM.img({ alt:this.props.gameName, src: this.props.img, className: 'game-logo' }),
-						React.DOM.span({className: 'game-title'}, this.props.gameName)
+						React.DOM.img({ alt: generateDisplayName(this.props), src: generateLogoSrc(this.props), className: 'game-logo' }),
+						React.DOM.span({className: 'game-title'}, generateDisplayName(this.props))
 					),
 					trophy_info,
 					trophy_stats,
