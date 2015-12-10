@@ -1,0 +1,64 @@
+$user-list-item-height: 64px;
+
+%user-list-item-info {
+	display: inline-block;
+	font-family: 'Open Sans', sans-serif;
+	height: $user-list-item-height;
+	vertical-align: top;
+}
+
+%user-list-item-info-column {
+	@extend %user-list-item-info;
+
+	padding: .75rem 0 0;
+	text-align: center;
+	width: 10%;
+
+	.info-value {
+		font-size: 1.75rem;
+	}
+	.info-label {
+		font-size: .85rem;
+	}
+}
+
+
+.users-list {
+	.user-list-item {
+	    background: rgba( 0, 0, 0, 0.2 );
+		padding: .5rem;
+		display: flex;
+		justify-content: space-between;
+
+		+ .user-list-item {
+			margin-top: .25rem;
+		}
+
+		.user-info {
+			@extend %user-list-item-info;
+
+			line-height: $user-list-item-height;
+			width: 60%;
+
+			.user-avatar {
+				height: 64px;
+				width: 64px;
+			}
+
+			.user-name {
+				display: inline-block;
+				font-size: 1.35rem;
+				margin-left: 1rem;
+				vertical-align: top;
+			}
+		}
+
+		.achievements-info {
+			@extend %user-list-item-info-column;
+		}
+
+		.games-info {
+			@extend %user-list-item-info-column;
+		}
+	}
+}

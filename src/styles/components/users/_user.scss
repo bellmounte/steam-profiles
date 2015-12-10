@@ -1,0 +1,38 @@
+.user-header {
+	margin-bottom: 1rem;
+
+	.user-header-details {
+		display: inline-block;
+	}
+
+	.user-name {
+		font-size: 3rem;
+		margin-bottom: .5rem;
+	}
+
+	.user-avatar {
+		display: inline-block;
+		float: right;
+	}
+
+	.user-member-since,
+	.user-realname {
+		font-size: .9rem;
+	}
+
+	&:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+
+
+.user-games {
+	background: #eee;
+
+	.user-games-header {
+		background: #171a21;
+		padding: 1rem;
+	}
+}

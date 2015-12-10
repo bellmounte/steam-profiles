@@ -22,9 +22,13 @@
 		});
 	});
 	app.get('/api/steam/user/:steamid', function (req, res) {
-		var steamid = Number(req.params.steamid);
-		// TODO: Handle isNaN(steamid)
+		var steamid = req.params.steamid;
 		api_steam.getUserInfo({steamid: steamid}, function (data) {
+			res.send(data);
+		});
+	});
+	app.get('/api/steam/users', function (req, res) {
+		api_steam.getUsers(null, function (data) {
 			res.send(data);
 		});
 	});

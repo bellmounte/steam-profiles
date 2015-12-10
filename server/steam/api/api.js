@@ -7,7 +7,7 @@
 
 	// Using local variables in case I don't have time to hook up a DB. Even then, I'll probably still want to use a LRU cache.
 	var games = [];
-	var users = [];
+	var cache_users = {};
 
 	var queue_games_achievements = [];
 
@@ -48,8 +48,6 @@
 					key: key
 				}
 			}, function (result) {
-				console.log('updateGameInfo', appid, result);
-
 				if (result.data) {
 					var data = toJSON(result.data);
 
@@ -83,11 +81,26 @@
 			});
 		},
 		getUsers: function (args, callback) {
+			var _users = [];
+			Object.keys(cache_users).forEach(function (key) {
+				var user = cache_users[key];
+				_users.push({
+					steamid: user.steamid,
+					personaname: user.personaname,
+					profileurl: user.profileurl,
+					avatar: user.avatar,
+					avatarmedium: user.avatarmedium,
+					avatarfull: user.avatarfull,
+					count_games: user.games.length,
+					count_achievements: 0
+				});
+			});
+			callback(_users);
 		},
 		getUserInfo: function (args, callback) {
 			var steamid = args.steamid;
-			if (users[steamid]) {
-				callback(users[steamid]);
+			if (cache_users[steamid]) {
+				callback(cache_users[steamid]);
 			} else {
 				this.updateUserInfo (args, function (result) {
 					callback(result);
@@ -103,40 +116,38 @@
 					key: key
 				}
 			}, function (result) {
-				console.log('updateUserInfo', steamid, result);
-
 				if (result.data) {
 					var data = toJSON(result.data);
 
-					if (data) { // Does this need an else error check?
+					if (data) {
 						var _users = data.response.players;
 
-						if (_users) { // Does this need an else error check?
+						if (_users) {
 							_users.forEach(function (user) {
 
-								if (!users[steamid]) {
-									users[steamid] = {
+								if (!cache_users[steamid]) {
+									cache_users[steamid] = {
 										games: []
 									}
 								}
 
-								users[steamid].steamid = user.steamid;
-								users[steamid].communityvisibilitystate = user.communityvisibilitystate;
-								users[steamid].profilestate = user.profilestate;
-								users[steamid].personaname = user.personaname;
-								users[steamid].lastlogoff = user.lastlogoff;
-								users[steamid].profileurl = user.profileurl;
-								users[steamid].avatar = user.avatar;
-								users[steamid].avatarmedium = user.avatarmedium;
-								users[steamid].avatarfull = user.avatarfull;
-								users[steamid].personastate = user.personastate;
-								users[steamid].realname = user.realname;
-								users[steamid].primaryclanid = user.primaryclanid;
-								users[steamid].timecreated = user.timecreated;
-								users[steamid].personastateflags = user.personastateflags;
-								users[steamid].loccountrycode = user.loccountrycode;
-								users[steamid].locstatecode = user.locstatecode;
-								users[steamid].loccityid = user.loccityid;
+								cache_users[steamid].steamid = user.steamid;
+								cache_users[steamid].communityvisibilitystate = user.communityvisibilitystate;
+								cache_users[steamid].profilestate = user.profilestate;
+								cache_users[steamid].personaname = user.personaname;
+								cache_users[steamid].lastlogoff = user.lastlogoff;
+								cache_users[steamid].profileurl = user.profileurl;
+								cache_users[steamid].avatar = user.avatar;
+								cache_users[steamid].avatarmedium = user.avatarmedium;
+								cache_users[steamid].avatarfull = user.avatarfull;
+								cache_users[steamid].personastate = user.personastate;
+								cache_users[steamid].realname = user.realname;
+								cache_users[steamid].primaryclanid = user.primaryclanid;
+								cache_users[steamid].timecreated = user.timecreated;
+								cache_users[steamid].personastateflags = user.personastateflags;
+								cache_users[steamid].loccountrycode = user.loccountrycode;
+								cache_users[steamid].locstatecode = user.locstatecode;
+								cache_users[steamid].loccityid = user.loccityid;
 							});
 
 							perform_request({
@@ -148,55 +159,55 @@
 									include_played_free_games: 1
 								}
 							}, function (result) {
-								console.log('updateUserInfo_games', steamid, result);
 
 								if (result.data) {
 									var data = toJSON(result.data);
 									var _games = data.response.games;
 
-									console.log('data:', data);
+									if (_games) {
 
-									_games.forEach(function (game) {
-										var appid = game.appid;
+										_games.forEach(function (game) {
+											var appid = game.appid;
 
-										if (!games[appid]) {
-											games[appid] = {
-												owners: []
-											};
+											if (!games[appid]) {
+												games[appid] = {
+													owners: []
+												};
 
-											queue_games_achievements.push(appid);
-										}
+												queue_games_achievements.push(appid);
+											}
 
-										if (!games[appid].appid) {
-											games[appid].appid = appid;
-										}
+											if (!games[appid].appid) {
+												games[appid].appid = appid;
+											}
 
-										if (!games[appid].displayName) {
-											games[appid].displayName = game.name;
-										}
+											if (!games[appid].displayName) {
+												games[appid].displayName = game.name;
+											}
 
-										if (!games[appid].icon) {
-											games[appid].icon = game.img_icon_url;
-										}
+											if (!games[appid].icon) {
+												games[appid].icon = game.img_icon_url;
+											}
 
-										if (!games[appid].logo) {
-											games[appid].logo = game.img_logo_url;
-										}
+											if (!games[appid].logo) {
+												games[appid].logo = game.img_logo_url;
+											}
 
-										if (typeof games[appid].has_community_visible_stats === 'undefined') {
-											games[appid].has_community_visible_stats = game.has_community_visible_stats;
-										}
+											if (typeof games[appid].has_community_visible_stats === 'undefined') {
+												games[appid].has_community_visible_stats = game.has_community_visible_stats;
+											}
 
-										// TODO: Figure out a good way to store this data
-										// users[steamid].games[appid] = {
-										// 	appid: appid,
-										// 	playtime_2weeks: game.playtime_2weeks,
-										// 	playtime_forever: game.playtime_forever
-										// }
-									});
+											// TODO: Figure out a good way to store this data
+											// cache_users[steamid].games[appid] = {
+											// 	appid: appid,
+											// 	playtime_2weeks: game.playtime_2weeks,
+											// 	playtime_forever: game.playtime_forever
+											// }
+										});
+									}
 								}
 
-								callback(users[steamid]);
+								callback(cache_users[steamid]);
 
 								while (queue_games_achievements.length > 0) {
 									var app_to_update = queue_games_achievements.shift();

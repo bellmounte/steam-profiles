@@ -14,7 +14,7 @@
 		var hostname = 'api.steampowered.com';
 		var path = _getPathFromArgs(args);
 
-		console.log('making api request: ', hostname + path);
+		console.log('Performing api request: ', hostname + path);
 
 		http.get({
 			host: hostname,
