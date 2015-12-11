@@ -6,7 +6,7 @@
 	var perform_request = require('../../util/perform_request');
 
 	// Using local variables in case I don't have time to hook up a DB. Even then, I'll probably still want to use a LRU cache.
-	var games = [];
+	var cache_games = {};
 	var cache_users = {};
 
 	var queue_games_achievements = [];
@@ -14,7 +14,8 @@
 	var API = {
 		getGames: function (args, callback) {
 			var _games = [];
-			games.forEach(function (game) {
+			Object.keys(cache_games).forEach(function (key) {
+				var game = cache_games[key];
 				_games.push({
 					appid: game.appid,
 					displayName: game.displayName,
@@ -31,8 +32,8 @@
 		},
 		getGameInfo: function (args, callback) {
 			var appid = args.appid;
-			if (games[appid]) {
-				callback(games[appid]);
+			if (cache_games[appid]) {
+				callback(cache_games[appid]);
 			} else {
 				this.updateGameInfo (args, function (result) {
 					callback(result);
@@ -55,24 +56,24 @@
 						var game = data.game;
 
 						if (game) { // Does this need an else error check?
-							if (!games[appid]) {
-								games[appid] = {
+							if (!cache_games[appid]) {
+								cache_games[appid] = {
 									owners: []
 								};
 							}
 
 							// Add new data from server, don't overwrite the node.
-							games[appid].appid = appid;
-							games[appid].gameName = game.gameName;
+							cache_games[appid].appid = appid;
+							cache_games[appid].gameName = game.gameName;
 
 							if (game.availableGameStats) {
-								games[appid].achievements = game.availableGameStats.achievements;
-								games[appid].stats = game.availableGameStats.stats;
+								cache_games[appid].achievements = game.availableGameStats.achievements;
+								cache_games[appid].stats = game.availableGameStats.stats;
 							}
 
 							// TODO: Get Acheivement stats
 
-							callback(games[appid]);
+							callback(cache_games[appid]);
 						}
 					}
 				} else {
@@ -127,7 +128,7 @@
 
 								if (!cache_users[steamid]) {
 									cache_users[steamid] = {
-										games: []
+										games: {}
 									}
 								}
 
@@ -169,40 +170,39 @@
 										_games.forEach(function (game) {
 											var appid = game.appid;
 
-											if (!games[appid]) {
-												games[appid] = {
+											if (!cache_games[appid]) {
+												cache_games[appid] = {
 													owners: []
 												};
 
 												queue_games_achievements.push(appid);
 											}
 
-											if (!games[appid].appid) {
-												games[appid].appid = appid;
+											if (!cache_games[appid].appid) {
+												cache_games[appid].appid = appid;
 											}
 
-											if (!games[appid].displayName) {
-												games[appid].displayName = game.name;
+											if (!cache_games[appid].displayName) {
+												cache_games[appid].displayName = game.name;
 											}
 
-											if (!games[appid].icon) {
-												games[appid].icon = game.img_icon_url;
+											if (!cache_games[appid].icon) {
+												cache_games[appid].icon = game.img_icon_url;
 											}
 
-											if (!games[appid].logo) {
-												games[appid].logo = game.img_logo_url;
+											if (!cache_games[appid].logo) {
+												cache_games[appid].logo = game.img_logo_url;
 											}
 
-											if (typeof games[appid].has_community_visible_stats === 'undefined') {
-												games[appid].has_community_visible_stats = game.has_community_visible_stats;
+											if (typeof cache_games[appid].has_community_visible_stats === 'undefined') {
+												cache_games[appid].has_community_visible_stats = game.has_community_visible_stats;
 											}
 
-											// TODO: Figure out a good way to store this data
-											// cache_users[steamid].games[appid] = {
-											// 	appid: appid,
-											// 	playtime_2weeks: game.playtime_2weeks,
-											// 	playtime_forever: game.playtime_forever
-											// }
+											cache_users[steamid].games[appid] = {
+												appid: appid,
+												playtime_2weeks: game.playtime_2weeks,
+												playtime_forever: game.playtime_forever
+											}
 										});
 									}
 								}
