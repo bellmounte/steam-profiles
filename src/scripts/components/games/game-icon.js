@@ -2,7 +2,7 @@
 	'use strict';
 
 	module.exports = React.createClass({
-		displayName: 'Game Logo',
+		displayName: 'Game Icon',
 		render: function () {
 
 			var alt = (this.props.displayName) ? this.props.displayName : this.props.gameName;
