@@ -93,7 +93,9 @@
 					avatarmedium: user.avatarmedium,
 					avatarfull: user.avatarfull,
 					count_games: user.games.length,
-					count_achievements: 0
+					count_achievements: 0,
+					timecreated: user.timecreated,
+					realname: user.realname
 				});
 			});
 			callback(_users);
@@ -101,7 +103,38 @@
 		getUserInfo: function (args, callback) {
 			var steamid = args.steamid;
 			if (cache_users[steamid]) {
-				callback(cache_users[steamid]);
+				var user = cache_users[steamid];
+				var result = {
+					steamid: user.steamid,
+					personaname: user.personaname,
+					profileurl: user.profileurl,
+					avatar: user.avatar,
+					avatarmedium: user.avatarmedium,
+					avatarfull: user.avatarfull,
+					count_games: user.games.length,
+					count_achievements: 0,
+					timecreated: user.timecreated,
+					realname: user.realname
+				}
+
+				result.games = [];
+				Object.keys(user.games).forEach(function (key) {
+					var game_user = user.games[key];
+					var game_global = cache_games[key];
+
+					result.games.push({
+						key: game_user.appid,
+						appid: game_user.appid,
+						playtime_forever: game_user.playtime_forever,
+						playtime_2weeks: game_user.playtime_2weeks,
+						displayName: game_global.displayName,
+						icon: game_global.icon,
+						logo: game_global.logo,
+						count_achievements: (game_global.achievements) ? game_global.achievements.length : 0
+					});
+				});
+
+				callback(result);
 			} else {
 				this.updateUserInfo (args, function (result) {
 					callback(result);

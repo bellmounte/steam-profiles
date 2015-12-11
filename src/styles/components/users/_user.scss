@@ -29,10 +29,60 @@
 
 
 .user-games {
-	background: #eee;
 
 	.user-games-header {
 		background: #171a21;
 		padding: 1rem;
+	}
+
+	.user-games-list {
+		background: #eee;
+		color: #4c3b34;
+
+		.user-games-list-item {
+			display: flex;
+			justify-content: space-between;
+			padding: .5rem 1rem;
+
+			+ .user-games-list-item {
+				border-top: 1px solid #eaebef;
+			}
+
+			&:nth-child(even) {
+				background: #f9f9f9;
+			}
+
+			.game-info {
+				width: 60%;
+
+				.game-logo {
+					height: 32px;
+					width: 32px;
+				}
+
+				.game-title {
+					line-height: 32px;
+					margin-left: .5rem;
+					vertical-align: top;
+				}
+			}
+
+			.user-game-playtime {
+				text-align: center;
+				width: 100px;
+
+				.info-value {
+					font-size: 1.25rem;
+				}
+				.info-label {
+					font-size: .8rem;
+				}
+			}
+
+			.game-launch {
+				text-align: center;
+				width: 100px;
+			}
+		}
 	}
 }
