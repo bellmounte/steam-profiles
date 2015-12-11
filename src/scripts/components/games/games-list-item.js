@@ -3,14 +3,8 @@
 
 	var appDispatcher = require('../../dispatcher/AppDispatcher');
 
-	function generateLogoSrc (props) {
-		return 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + props.appid + '/' + props.logo + '.jpg';
-	}
-
-	function generateDisplayName (props) {
-		return (props.displayName) ? props.displayName : props.gameName;
-	}
-
+	var GameName = require('./game-name');
+	var GameLogo = require('./game-logo');
 
 	module.exports = React.createClass({
 		displayName: 'GamesListItem',
@@ -37,8 +31,8 @@
 			return (
 				React.DOM.li({className: 'game-list-item', onClick: this.handleClick},
 					React.DOM.div({className: 'game-info'},
-						React.DOM.img({ alt: generateDisplayName(this.props), src: generateLogoSrc(this.props), className: 'game-logo' }),
-						React.DOM.span({className: 'game-title'}, generateDisplayName(this.props))
+						React.createElement(GameLogo, this.props),
+						React.createElement(GameName, this.props)
 					),
 					trophy_info,
 					trophy_stats,

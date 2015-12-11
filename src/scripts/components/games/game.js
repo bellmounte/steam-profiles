@@ -1,14 +1,6 @@
 (function (React, $) {
 	'use strict';
 
-	function generateLogoSrc (props) {
-		return 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + props.appid + '/' + props.logo + '.jpg';
-	}
-
-	function generateDisplayName (props) {
-		return (props.displayName) ? props.displayName : props.gameName;
-	}
-
 	var AchievementItem = React.createClass({
 		displayName: 'AchievementItem',
 		render: function () {
@@ -24,6 +16,17 @@
 			);
 		}
 	});
+
+	var createAchievement = function (achievement) {
+		achievement.type = 'achievement';
+		achievement.key = achievement.name;
+		achievement.uid = achievement.name;
+
+		return React.createElement(AchievementItem, achievement);
+	};
+
+	var GameName = require('./game-name');
+	var GameLogo = require('./game-logo');
 
 	module.exports = React.createClass({
 		displayName: 'Game',
@@ -43,15 +46,6 @@
 
 			if (this.state.game) {
 				var game = this.state.game;
-
-				var createAchievement = function (achievement) {
-					achievement.type = 'achievement';
-					achievement.key = achievement.name;
-					achievement.uid = achievement.name;
-
-					return React.createElement(AchievementItem, achievement);
-				};
-
 				var achievements;
 				if (game.achievements) {
 					achievements = game.achievements.map(createAchievement);
@@ -59,8 +53,8 @@
 
 				return React.createElement('div', {className: 'game'},
 					React.createElement('header', {className: 'game-header'},
-						React.DOM.h1({className: 'game-name'}, generateDisplayName(game)),
-						React.DOM.img({ alt:generateDisplayName(game), src: generateLogoSrc(game), className: 'game-logo' })
+						React.createElement(GameName, game),
+						React.createElement(GameLogo, game)
 					),
 					React.createElement('ul', {className: 'game-achievements'},
 						achievements

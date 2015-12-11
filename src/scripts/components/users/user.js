@@ -1,41 +1,13 @@
 (function (React, $) {
 	'use strict';
 
-	function memberSince(timecreated) {
-		if (!timecreated) {
-			return;
-		}
-		var d = new Date(timecreated * 1000);
-		// TODO: Localize
-		var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-	}
-
-	function generateIconSrc (props) {
-		return 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + props.appid + '/' + props.icon + '.jpg';
-	}
-
-	function generateDisplayName (props) {
-		return (props.displayName) ? props.displayName : props.gameName;
-	}
+	var UserGameItem = require('./user-game-item');
+	var UserMemberSince = require('./user-member-since');
 
 	function createGameItem (item) {
-		return React.createElement('li', {className: 'user-games-list-item'},
-			React.DOM.div({className: 'game-info'},
-				React.DOM.img({ alt: generateDisplayName(item), src: generateIconSrc(item), className: 'game-logo' }),
-				React.DOM.span({className: 'game-title'}, generateDisplayName(item))
-			),
-			React.DOM.div({className: 'user-game-playtime'},
-				React.DOM.div({className: 'info-value'}, item.playtime_forever),
-				React.DOM.div({className: 'info-label'}, 'Minutes Played')
-			),
-			React.DOM.div({className: 'game-launch'},
-				React.DOM.a({className: 'button game-launch-button', href:'steam://run/' + item.appid },
-					'Launch'
-				)
-			)
-		);
-	};
+		item.key = item.appid;
+		return React.createElement(UserGameItem, item);
+	}
 
 	module.exports = React.createClass({
 		displayName: 'User',
@@ -76,7 +48,7 @@
 						React.createElement('div', {className: 'user-header-details'},
 							React.DOM.h2({className: 'user-name'}, user.personaname),
 							React.DOM.h3({className: 'user-realname'}, user.realname),
-							React.DOM.h3({className: 'user-member-since'}, memberSince(user.timecreated))
+							React.createElement(UserMemberSince, user)
 						),
 						React.DOM.img({ alt:user.personaname, src: user.avatarfull, className: 'user-avatar' })
 					),

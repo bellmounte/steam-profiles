@@ -123,7 +123,6 @@
 					var game_global = cache_games[key];
 
 					result.games.push({
-						key: game_user.appid,
 						appid: game_user.appid,
 						playtime_forever: game_user.playtime_forever,
 						playtime_2weeks: game_user.playtime_2weeks,

@@ -55,12 +55,13 @@
 			.game-info {
 				width: 60%;
 
-				.game-logo {
+				.game-icon {
 					height: 32px;
 					width: 32px;
 				}
 
-				.game-title {
+				.game-name {
+				    display: inline-block;
 					line-height: 32px;
 					margin-left: .5rem;
 					vertical-align: top;
