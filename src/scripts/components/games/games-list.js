@@ -46,9 +46,13 @@
 				return React.createElement(GameItem, item);
 			};
 
-			return React.createElement('ul', {className: 'games-list'},
-				this.state.games.map(createItem)
-			);
+			if (this.state.games.length > 0) {
+				return React.createElement('ul', {className: 'games-list'},
+					this.state.games.map(createItem)
+				);
+			} else {
+				return React.createElement('div', {className: 'games-list loading'});
+			}
 		}
 	});
 

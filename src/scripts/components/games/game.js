@@ -47,7 +47,7 @@
 					)
 				);
 			} else {
-				return React.createElement('div', {className: 'game loading'}, 'Loading');
+				return React.createElement('div', {className: 'game loading'});
 			}
 		}
 	});

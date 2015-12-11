@@ -46,9 +46,13 @@
 				return React.createElement(UserItem, item);
 			};
 
-			return React.createElement('ul', {className: 'users-list'},
-				this.state.users.map(createItem)
-			);
+			if (this.state.users.length > 0) {
+				return React.createElement('ul', {className: 'users-list'},
+					this.state.users.map(createItem)
+				);
+			} else {
+				return React.createElement('div', {className: 'games-list loading'});
+			}
 		}
 	});
 

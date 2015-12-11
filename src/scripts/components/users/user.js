@@ -60,7 +60,7 @@
 					)
 				);
 			} else {
-				return React.createElement('div', {className: 'user'}, 'Loading');
+				return React.createElement('div', {className: 'user loading'});
 			}
 		}
 	});
