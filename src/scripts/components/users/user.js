@@ -9,6 +9,19 @@
 		return React.createElement(UserGameItem, item);
 	}
 
+	function sortGames (a, b) {
+		if (a.playtime_forever > b.playtime_forever) {
+			return -1;
+		} else if (a.playtime_forever < b.playtime_forever) {
+			return 1;
+		} else if (a.displayName.toLowerCase() < b.displayName.toLowerCase()) {
+			return -1;
+		} else if (a.displayName.toLowerCase() > b.displayName.toLowerCase()) {
+			return 1;
+		}
+		return 0;
+	}
+
 	module.exports = React.createClass({
 		displayName: 'User',
 		getInitialState: function() {
@@ -27,21 +40,7 @@
 
 			if (this.state.user) {
 				var user = this.state.user;
-				user.games.sort(function (a, b) {
-					if (a.playtime_forever > b.playtime_forever) {
-						return -1;
-					}
-					if (a.playtime_forever < b.playtime_forever) {
-						return 1;
-					}
-					if (a.displayName.toLowerCase() < b.displayName.toLowerCase()) {
-						return -1;
-					}
-					if (a.displayName.toLowerCase() > b.displayName.toLowerCase()) {
-						return 1;
-					}
-					return 0;
-				});
+				user.games.sort(sortGames);
 
 				return React.createElement('div', {className: 'user'},
 					React.createElement('header', {className: 'user-header'},
