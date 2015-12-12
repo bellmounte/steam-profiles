@@ -24,7 +24,7 @@
 					),
 					React.createElement(InfoValueLabel, {
 						className: 'achievements-info',
-						label: 'Games',
+						label: 'Achievements',
 						value: this.props.count_achievements
 					}),
 					React.createElement(InfoValueLabel, {
