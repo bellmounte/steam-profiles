@@ -3,6 +3,7 @@
 
 	var GameIcon = require('../games/game-icon');
 	var GameName = require('../games/game-name');
+	var InfoValueLabel = require('../general/info-value-label');
 
 	module.exports = React.createClass({
 		displayName: 'User Game Item',
@@ -12,10 +13,11 @@
 					React.createElement(GameIcon, this.props),
 					React.createElement(GameName, this.props)
 				),
-				React.DOM.div({className: 'user-game-playtime'},
-					React.DOM.div({className: 'info-value'}, this.props.playtime_forever),
-					React.DOM.div({className: 'info-label'}, 'Minutes Played')
-				),
+				React.createElement(InfoValueLabel, {
+					className: 'user-game-playtime',
+					label: 'Minutes Played',
+					value: this.props.playtime_forever
+				}),
 				React.DOM.div({className: 'game-launch'},
 					React.DOM.a({className: 'button game-launch-button', href:'steam://run/' + this.props.appid },
 						'Launch'

@@ -2,6 +2,7 @@
 	'use strict';
 
 	var appDispatcher = require('../../dispatcher/AppDispatcher');
+	var InfoValueLabel = require('../general/info-value-label');
 
 	module.exports = React.createClass({
 		displayName: 'UsersListItem',
@@ -21,14 +22,16 @@
 						React.DOM.img({ alt:user.personaname, src: user.avatarmedium, className: 'user-avatar' }),
 						React.DOM.span({className: 'user-name'}, user.personaname)
 					),
-					React.DOM.div({className: 'achievements-info'},
-						React.DOM.div({className: 'info-value'}, this.props.count_achievements),
-						React.DOM.div({className: 'info-label'}, 'Achievements')
-					),
-					React.DOM.div({className: 'games-info'},
-						React.DOM.div({className: 'info-value'}, ((this.props.count_games) ? this.props.count_games : 0)),
-						React.DOM.div({className: 'info-label'}, 'Games')
-					)
+					React.createElement(InfoValueLabel, {
+						className: 'achievements-info',
+						label: 'Games',
+						value: this.props.count_achievements
+					}),
+					React.createElement(InfoValueLabel, {
+						className: 'games-info',
+						label: 'Games',
+						value: (this.props.count_games) ? this.props.count_games : 0
+					})
 				)
 			);
 		}

@@ -5,6 +5,7 @@
 
 	var GameName = require('./game-name');
 	var GameLogo = require('./game-logo');
+	var InfoValueLabel = require('../general/info-value-label');
 
 	module.exports = React.createClass({
 		displayName: 'GamesListItem',
@@ -17,16 +18,18 @@
 		},
 		render: function () {
 			var trophy_info = (this.props.count_achievements) ?
-				React.DOM.div({className: 'trophy-info'},
-					React.DOM.div({className: 'info-value'}, this.props.count_achievements),
-					React.DOM.div({className: 'info-label'}, 'Achievements')
-				) : null;
+				React.createElement(InfoValueLabel, {
+					className: 'trophy-info',
+					label: 'Achievements',
+					value: this.props.count_achievements
+				}) : null;
 
 			var trophy_stats = (this.props.average_completion) ?
-				React.DOM.div({className: 'trophy-stats'},
-					React.DOM.div({className: 'info-value'}, this.props.average_completion),
-					React.DOM.div({className: 'info-label'}, 'Average')
-				) : null;
+				React.createElement(InfoValueLabel, {
+					className: 'trophy-stats',
+					label: 'Average',
+					value: this.props.average_completion
+				}) : null;
 
 			return (
 				React.DOM.li({className: 'game-list-item', onClick: this.handleClick},
@@ -36,10 +39,11 @@
 					),
 					trophy_info,
 					trophy_stats,
-					React.DOM.div({className: 'owner-info'},
-						React.DOM.div({className: 'info-value'}, ((this.props.count_owners) ? this.props.count_owners : 0)),
-						React.DOM.div({className: 'info-label'}, 'Owners')
-					)
+					React.createElement(InfoValueLabel, {
+						className: 'owner-info',
+						label: 'Owners',
+						value: (this.props.count_owners) ? this.props.count_owners : 0
+					})
 				)
 			);
 		}
