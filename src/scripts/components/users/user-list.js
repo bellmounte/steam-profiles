@@ -5,6 +5,20 @@
 	var User = require('./user');
 	var UsersStore = require('../../stores/data/usersStore');
 
+
+	function sortUsers (a, b) {
+		if (a.count_games > b.count_games) {
+			return -1;
+		} else if (a.count_games < b.count_games) {
+			return 1;
+		} else if (a.personaname.toLowerCase() < b.personaname.toLowerCase()) {
+			return -1;
+		} else if (a.personaname.toLowerCase() > b.personaname.toLowerCase()) {
+			return 1;
+		}
+		return 0;
+	}
+
 	module.exports = React.createClass({
 		displayName: 'UserList',
 
@@ -47,6 +61,7 @@
 			};
 
 			if (this.state.users.length > 0) {
+				this.state.users.sort(sortUsers);
 				return React.createElement('ul', {className: 'users-list'},
 					this.state.users.map(createItem)
 				);

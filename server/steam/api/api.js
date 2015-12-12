@@ -92,7 +92,7 @@
 					avatar: user.avatar,
 					avatarmedium: user.avatarmedium,
 					avatarfull: user.avatarfull,
-					count_games: user.games.length,
+					count_games: Object.keys(user.games).length,
 					count_achievements: 0,
 					timecreated: user.timecreated,
 					realname: user.realname
@@ -204,10 +204,12 @@
 
 											if (!cache_games[appid]) {
 												cache_games[appid] = {
-													owners: []
+													owners: [steamid]
 												};
 
 												queue_games_achievements.push(appid);
+											} else if (cache_games[appid].owners.indexOf(steamid) === -1) {
+												cache_games[appid].owners.push(steamid);
 											}
 
 											if (!cache_games[appid].appid) {
