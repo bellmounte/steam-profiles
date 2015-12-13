@@ -57,6 +57,10 @@ $user-list-item-height: 64px;
 			@extend %user-list-item-info-column;
 		}
 
+		.playtime-info {
+			@extend %user-list-item-info-column;
+		}
+
 		.games-info {
 			@extend %user-list-item-info-column;
 		}

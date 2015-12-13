@@ -28,6 +28,11 @@
 						value: this.props.count_achievements
 					}),
 					React.createElement(InfoValueLabel, {
+						className: 'playtime-info',
+						label: 'Minutes Played',
+						value: this.props.count_playtime
+					}),
+					React.createElement(InfoValueLabel, {
 						className: 'games-info',
 						label: 'Games',
 						value: (this.props.count_games) ? this.props.count_games : 0

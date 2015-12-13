@@ -26,6 +26,9 @@
 				avatarfull: this.avatarfull,
 				count_games: Object.keys(this.games).length,
 				count_achievements: 0,
+				count_playtime: Object.keys(this.games).reduce(function(previous, key){
+					return previous + this.games[key].playtime_forever;
+				}.bind(this), 0),
 				timecreated: this.timecreated,
 				realname: this.realname
 			};
