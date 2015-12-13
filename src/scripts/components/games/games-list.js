@@ -4,22 +4,43 @@
 	var GameItem = require('./games-list-item');
 	var Game = require('./game');
 	var GamesStore = require('../../stores/data/gamesStore');
+	var SortHeader = require('../general/sort-header');
 
-	function sortGames (a, b) {
-		if (a.count_owners > b.count_owners) {
-			return -1;
-		} else if (a.count_owners < b.count_owners) {
-			return 1;
-		}
+	var sort_columns = [
+		{sort: 'name', text: 'Name'},
+		{sort: 'achievements', text: 'Achievements'},
+		{sort: 'owners', text: 'owners'}
+	];
 
-		var a_name = (a.displayName) ? a.displayName : a.gameName;
-		var b_name = (b.displayName) ? b.displayName : b.gameName;
-		if (a_name.toLowerCase() < b_name.toLowerCase()) {
-			return -1;
-		} else if (a_name.toLowerCase() > b_name.toLowerCase()) {
-			return 1;
+	var sorts = {
+		name: function (a, b) {
+			return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
+		},
+		achievements: function (a, b) {
+			if (a.count_achievements !== b.count_achievements) {
+				return b.count_achievements - a.count_achievements;
+			}
+			return sorts.name(a, b);
+		},
+		owners: function (a, b) {
+			if (a.count_owners !== b.count_owners) {
+				return b.count_owners - a.count_owners;
+			}
+			return sorts.name(a, b);
 		}
-		return 0;
+	};
+
+	function getSort(sort) {
+		switch (sort) {
+			case('name'):
+				return sorts.name;
+			case('achievements'):
+				return sorts.achievements;
+			case('owners'):
+				return sorts.owners;
+			default:
+				return sorts.owners;
+		}
 	}
 
 	module.exports = React.createClass({
@@ -28,8 +49,16 @@
 		getInitialState: function() {
 			return {
 				selectedGame: GamesStore.getSelectedGame(),
-				games: []
+				games: [],
+				sort: 'owners'
 			};
+		},
+
+		handleSort: function (ev) {
+			var sort = ev.target.dataset.sort;
+			this.setState({
+				sort: sort
+			});
 		},
 
 		componentDidMount: function() {
@@ -59,14 +88,22 @@
 				item.type = 'game-list';
 				item.key = item.appid;
 				item.uid = item.appid;
-
 				return React.createElement(GameItem, item);
 			};
 
 			if (this.state.games.length > 0) {
-				this.state.games.sort(sortGames);
-				return React.createElement('ul', {className: 'games-list'},
-					this.state.games.map(createItem)
+				var sort = getSort(this.state.sort);
+				this.state.games.sort(sort);
+
+				return React.DOM.div(null,
+					React.createElement(SortHeader, {
+						items: sort_columns,
+						active: this.state.sort,
+						click: this.handleSort
+					}),
+					React.createElement('ul', {className: 'games-list'},
+						this.state.games.map(createItem)
+					)
 				);
 			} else {
 				return React.createElement('div', {className: 'games-list loading'});
