@@ -17,7 +17,6 @@
 		displayName: 'App',
 		render: function render() {
 			return React.createElement('div', null,
-				React.DOM.header({ className: 'site-header' }, 'Steam Profiles Demo'),
 				React.createElement(SiteNav, null),
 				React.createElement(Page, null)
 			);
