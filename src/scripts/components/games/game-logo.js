@@ -6,14 +6,15 @@
 		render: function () {
 
 			var alt = (this.props.displayName) ? this.props.displayName : this.props.gameName;
-			var src = 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + this.props.appid + '/' + this.props.logo + '.jpg';
+			var src = (this.props.logo) ?
+				'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + this.props.appid + '/' + this.props.logo + '.jpg' :
+				'http://placehold.it/184x69?text=Logo';
 
 			return React.createElement('img', {
 				alt: alt,
 				className: 'game-logo',
 				src: src
 			});
-
 		}
 	});
 
