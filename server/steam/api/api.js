@@ -1,42 +1,30 @@
 (function () {
 	'use strict';
 
+	// Caches
+	const cache_games = require('../caches/games');
+	const cache_users = require('../caches/users');
+
+	// Classes
+	var Game = require('../classes/game');
+	var User = require('../classes/user');
+
+	// Utilities
 	var key = require('./accounts').steam.key;
 	var toJSON = require('../../util/toJSON');
 	var perform_request = require('../../util/perform_request');
 
-	// Using local variables in case I don't have time to hook up a DB. Even then, I'll probably still want to use a LRU cache.
-	var cache_games = {};
-	var cache_users = {};
-
-	var queue_games_achievements = [];
-
 	var API = {
 		getGames: function (args, callback) {
-			var _games = [];
-			Object.keys(cache_games).forEach(function (key) {
-				var game = cache_games[key];
-				_games.push({
-					appid: game.appid,
-					displayName: game.displayName,
-					gameName: game.gameName,
-					icon: game.icon,
-					logo: game.logo,
-					count_achievements: (game.achievements) ? game.achievements.length : 0,
-					count_owners: game.owners.length,
-					average_completion: 0
-				});
-			});
-
-			callback(_games);
+			callback(cache_games.getGames());
 		},
 		getGameInfo: function (args, callback) {
 			var appid = args.appid;
-			if (cache_games[appid]) {
-				callback(cache_games[appid]);
+			if (cache_games.hasGame(appid)) {
+				callback(cache_games.getGame(appid));
 			} else {
-				this.updateGameInfo (args, function (result) {
-					callback(result);
+				this.updateGameInfo (args, function () {
+					callback(cache_games.getGame(appid));
 				});
 			}
 		},
@@ -52,88 +40,33 @@
 				if (result.data) {
 					var data = toJSON(result.data);
 
-					if (data) { // Does this need an else error check?
+					if (data && data.game) {
 						var game = data.game;
+						game.appid = appid;
 
-						if (game) { // Does this need an else error check?
-							if (!cache_games[appid]) {
-								cache_games[appid] = {
-									owners: []
-								};
-							}
 
-							// Add new data from server, don't overwrite the node.
-							cache_games[appid].appid = appid;
-							cache_games[appid].gameName = game.gameName;
-
-							if (game.availableGameStats) {
-								cache_games[appid].achievements = game.availableGameStats.achievements;
-								cache_games[appid].stats = game.availableGameStats.stats;
-							}
-
-							// TODO: Get Acheivement stats
-
-							callback(cache_games[appid]);
+						if (cache_games.hasGame(appid)) {
+							cache_games.updateGame(game);
+						} else {
+							let class_game = new Game(game);
+							cache_games.addGame(class_game);
 						}
+						callback();
 					}
+
 				} else {
 					callback(toJSON(result.error));
 				}
 			});
 		},
 		getUsers: function (args, callback) {
-			var _users = [];
-			Object.keys(cache_users).forEach(function (key) {
-				var user = cache_users[key];
-				_users.push({
-					steamid: user.steamid,
-					personaname: user.personaname,
-					profileurl: user.profileurl,
-					avatar: user.avatar,
-					avatarmedium: user.avatarmedium,
-					avatarfull: user.avatarfull,
-					count_games: Object.keys(user.games).length,
-					count_achievements: 0,
-					timecreated: user.timecreated,
-					realname: user.realname
-				});
-			});
-			callback(_users);
+			callback(cache_users.getUsers());
 		},
 		getUserInfo: function (args, callback) {
 			var steamid = args.steamid;
-			if (cache_users[steamid]) {
-				var user = cache_users[steamid];
-				var result = {
-					steamid: user.steamid,
-					personaname: user.personaname,
-					profileurl: user.profileurl,
-					avatar: user.avatar,
-					avatarmedium: user.avatarmedium,
-					avatarfull: user.avatarfull,
-					count_games: user.games.length,
-					count_achievements: 0,
-					timecreated: user.timecreated,
-					realname: user.realname
-				}
 
-				result.games = [];
-				Object.keys(user.games).forEach(function (key) {
-					var game_user = user.games[key];
-					var game_global = cache_games[key];
-
-					result.games.push({
-						appid: game_user.appid,
-						playtime_forever: game_user.playtime_forever,
-						playtime_2weeks: game_user.playtime_2weeks,
-						displayName: game_global.displayName,
-						icon: game_global.icon,
-						logo: game_global.logo,
-						count_achievements: (game_global.achievements) ? game_global.achievements.length : 0
-					});
-				});
-
-				callback(result);
+			if (cache_users.hasUser(steamid)) {
+				callback(cache_users.getUser(steamid));
 			} else {
 				this.updateUserInfo (args, function (result) {
 					callback(result);
@@ -157,30 +90,8 @@
 
 						if (_users) {
 							_users.forEach(function (user) {
-
-								if (!cache_users[steamid]) {
-									cache_users[steamid] = {
-										games: {}
-									}
-								}
-
-								cache_users[steamid].steamid = user.steamid;
-								cache_users[steamid].communityvisibilitystate = user.communityvisibilitystate;
-								cache_users[steamid].profilestate = user.profilestate;
-								cache_users[steamid].personaname = user.personaname;
-								cache_users[steamid].lastlogoff = user.lastlogoff;
-								cache_users[steamid].profileurl = user.profileurl;
-								cache_users[steamid].avatar = user.avatar;
-								cache_users[steamid].avatarmedium = user.avatarmedium;
-								cache_users[steamid].avatarfull = user.avatarfull;
-								cache_users[steamid].personastate = user.personastate;
-								cache_users[steamid].realname = user.realname;
-								cache_users[steamid].primaryclanid = user.primaryclanid;
-								cache_users[steamid].timecreated = user.timecreated;
-								cache_users[steamid].personastateflags = user.personastateflags;
-								cache_users[steamid].loccountrycode = user.loccountrycode;
-								cache_users[steamid].locstatecode = user.locstatecode;
-								cache_users[steamid].loccityid = user.loccityid;
+								let class_user = new User(user);
+								cache_users.addUser(class_user);
 							});
 
 							perform_request({
@@ -198,41 +109,21 @@
 									var _games = data.response.games;
 
 									if (_games) {
-
 										_games.forEach(function (game) {
 											var appid = game.appid;
 
-											if (!cache_games[appid]) {
-												cache_games[appid] = {
-													owners: [steamid]
-												};
+											if (cache_games.hasGame(appid)) {
+												cache_games.updateGame(game);
+											} else {
+												let class_game = new Game(game);
+												cache_games.addGame(class_game);
 
-												queue_games_achievements.push(appid);
-											} else if (cache_games[appid].owners.indexOf(steamid) === -1) {
-												cache_games[appid].owners.push(steamid);
+												API.updateGameInfo({appid: appid} , function(){});
 											}
 
-											if (!cache_games[appid].appid) {
-												cache_games[appid].appid = appid;
-											}
+											cache_games.games[appid].addUser(steamid);
 
-											if (!cache_games[appid].displayName) {
-												cache_games[appid].displayName = game.name;
-											}
-
-											if (!cache_games[appid].icon) {
-												cache_games[appid].icon = game.img_icon_url;
-											}
-
-											if (!cache_games[appid].logo) {
-												cache_games[appid].logo = game.img_logo_url;
-											}
-
-											if (typeof cache_games[appid].has_community_visible_stats === 'undefined') {
-												cache_games[appid].has_community_visible_stats = game.has_community_visible_stats;
-											}
-
-											cache_users[steamid].games[appid] = {
+											cache_users.users[steamid].games[appid] = {
 												appid: appid,
 												playtime_2weeks: game.playtime_2weeks,
 												playtime_forever: game.playtime_forever
@@ -240,13 +131,7 @@
 										});
 									}
 								}
-
-								callback(cache_users[steamid]);
-
-								while (queue_games_achievements.length > 0) {
-									var app_to_update = queue_games_achievements.shift();
-									API.updateGameInfo({appid: app_to_update} , function(){});
-								}
+								callback(cache_users.getUser(steamid));
 							});
 						}
 					}
