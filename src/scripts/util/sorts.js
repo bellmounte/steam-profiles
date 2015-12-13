@@ -1,12 +1,14 @@
 (function () {
 	'use strict';
 
+	var string_compare = new Intl.Collator().compare;
+
 	var sorts = {
 		name_game: function (a, b) {
-			return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
+			return string_compare(a.displayName, b.displayName);
 		},
 		name_user: function (a, b) {
-			return a.personaname.toLowerCase().localeCompare(b.personaname.toLowerCase());
+			return string_compare(a.personaname, b.personaname);
 		},
 		achievements: function (a, b) {
 			if (a.count_achievements !== b.count_achievements) {
