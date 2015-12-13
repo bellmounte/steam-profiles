@@ -6,28 +6,11 @@
 	var UsersStore = require('../../stores/data/usersStore');
 	var SortHeader = require('../general/sort-header');
 
-	var sorts = {
-		games: function (a, b) {
-			if (a.count_games !== b.count_games) {
-				return b.count_games - a.count_games;
-			}
-			return sorts.name(a, b);
-		},
-		name: function (a, b) {
-			return a.personaname.toLowerCase().localeCompare(b.personaname.toLowerCase());
-		},
-		playtime: function (a, b) {
-			if (a.count_playtime !== b.count_playtime) {
-				return b.count_playtime - a.count_playtime;
-			}
-			return sorts.name(a, b);
-		}
-	};
-
+	var sorts = require('../../util/sorts');
 	function getSort(sort) {
 		switch (sort) {
 			case('name'):
-				return sorts.name;
+				return sorts.name_user;
 			case('games'):
 				return sorts.games;
 			case('playtime'):

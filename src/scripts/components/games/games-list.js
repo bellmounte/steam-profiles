@@ -6,34 +6,17 @@
 	var GamesStore = require('../../stores/data/gamesStore');
 	var SortHeader = require('../general/sort-header');
 
+	var sorts = require('../../util/sorts');
 	var sort_columns = [
 		{sort: 'name', text: 'Name'},
 		{sort: 'achievements', text: 'Achievements'},
 		{sort: 'owners', text: 'Owners'}
 	];
 
-	var sorts = {
-		name: function (a, b) {
-			return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
-		},
-		achievements: function (a, b) {
-			if (a.count_achievements !== b.count_achievements) {
-				return b.count_achievements - a.count_achievements;
-			}
-			return sorts.name(a, b);
-		},
-		owners: function (a, b) {
-			if (a.count_owners !== b.count_owners) {
-				return b.count_owners - a.count_owners;
-			}
-			return sorts.name(a, b);
-		}
-	};
-
 	function getSort(sort) {
 		switch (sort) {
 			case('name'):
-				return sorts.name;
+				return sorts.name_game;
 			case('achievements'):
 				return sorts.achievements;
 			case('owners'):
