@@ -81,6 +81,8 @@
 				var sort = getSort(this.state.sort);
 				cache_games.sort(sort);
 
+				var slice_games = cache_games.slice(0, 100);
+
 				return React.DOM.div(null,
 					React.createElement(SortHeader, {
 						items: sort_columns,
@@ -88,7 +90,7 @@
 						click: this.handleSort
 					}),
 					React.createElement('ul', {className: 'games-list'},
-						cache_games.map(createItem)
+						slice_games.map(createItem)
 					)
 				);
 			} else {
