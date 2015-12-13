@@ -8,7 +8,7 @@
 	module.exports = React.createClass({
 		displayName: 'User Game Item',
 		render: function () {
-			return React.createElement('li', {className: 'user-games-list-item'},
+			return React.DOM.li({className: 'user-games-list-item'},
 				React.DOM.div({className: 'game-info'},
 					React.createElement(GameIcon, this.props),
 					React.createElement(GameName, this.props)

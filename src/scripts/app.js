@@ -16,7 +16,7 @@
 	var App = React.createClass({
 		displayName: 'App',
 		render: function render() {
-			return React.createElement('div', null,
+			return React.DOM.div(null,
 				React.createElement(SiteNav, null),
 				React.createElement(Page, null)
 			);

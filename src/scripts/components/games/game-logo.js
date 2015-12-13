@@ -10,7 +10,7 @@
 				'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + this.props.appid + '/' + this.props.logo + '.jpg' :
 				'http://placehold.it/184x69?text=Logo';
 
-			return React.createElement('img', {
+			return React.DOM.img({
 				alt: alt,
 				className: 'game-logo',
 				src: src

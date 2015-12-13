@@ -89,12 +89,12 @@
 						active: this.state.sort,
 						click: this.handleSort
 					}),
-					React.createElement('ul', {className: 'games-list'},
+					React.DOM.ul({className: 'games-list'},
 						slice_games.map(createItem)
 					)
 				);
 			} else {
-				return React.createElement('div', {className: 'games-list loading'});
+				return React.DOM.div({className: 'games-list loading'});
 			}
 		}
 	});

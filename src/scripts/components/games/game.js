@@ -37,17 +37,17 @@
 					achievements = game.achievements.map(createAchievement);
 				}
 
-				return React.createElement('div', {className: 'game'},
-					React.createElement('header', {className: 'game-header'},
+				return React.DOM.div({className: 'game'},
+					React.DOM.header({className: 'game-header'},
 						React.createElement(GameName, game),
 						React.createElement(GameLogo, game)
 					),
-					React.createElement('ul', {className: 'game-achievements'},
+					React.DOM.ul({className: 'game-achievements'},
 						achievements
 					)
 				);
 			} else {
-				return React.createElement('div', {className: 'game loading'});
+				return React.DOM.div({className: 'game loading'});
 			}
 		}
 	});

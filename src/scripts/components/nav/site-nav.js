@@ -28,8 +28,8 @@
 					uid: item.id
 				});
 			};
-			return React.createElement('nav', {className: 'site-nav'},
-				React.createElement('ul', {className: 'site-nav-list'}, this.state.items.map(createItem))
+			return React.DOM.nav({className: 'site-nav'},
+				React.DOM.ul({className: 'site-nav-list'}, this.state.items.map(createItem))
 			);
 		}
 	});

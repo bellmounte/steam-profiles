@@ -42,24 +42,24 @@
 				var user = this.state.user;
 				user.games.sort(sortGames);
 
-				return React.createElement('div', {className: 'user'},
-					React.createElement('header', {className: 'user-header'},
-						React.createElement('div', {className: 'user-header-details'},
+				return React.DOM.div({className: 'user'},
+					React.DOM.header({className: 'user-header'},
+						React.DOM.div({className: 'user-header-details'},
 							React.DOM.h2({className: 'user-name'}, user.personaname),
 							React.DOM.h3({className: 'user-realname'}, user.realname),
 							React.createElement(UserMemberSince, user)
 						),
 						React.DOM.img({ alt:user.personaname, src: user.avatarfull, className: 'user-avatar' })
 					),
-					React.createElement('ul', {className: 'user-games'},
-						React.createElement('header', {className: 'user-games-header'}, 'Games'),
-						React.createElement('ul', {className: 'user-games-list'},
+					React.DOM.ul({className: 'user-games'},
+						React.DOM.header({className: 'user-games-header'}, 'Games'),
+						React.DOM.ul({className: 'user-games-list'},
 							user.games.map(createGameItem)
 						)
 					)
 				);
 			} else {
-				return React.createElement('div', {className: 'user loading'});
+				return React.DOM.div({className: 'user loading'});
 			}
 		}
 	});

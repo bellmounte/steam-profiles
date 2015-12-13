@@ -43,7 +43,7 @@
 
 		render: function () {
 			var subview = this.getActivePage();
-			return React.createElement('div', {className: 'page'},
+			return React.DOM.div({className: 'page'},
 				React.createElement(subview, null)
 			);
 		}

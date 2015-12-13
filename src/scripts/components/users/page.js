@@ -6,7 +6,7 @@
 	module.exports = React.createClass({
 		displayName: 'UserPage',
 		render: function () {
-			return React.createElement('div', {className: 'page page-users'},
+			return React.DOM.div({className: 'page page-users'},
 				React.DOM.h1({className: 'page-title' }, 'Users'),
 				React.createElement(UserList, null)
 			);

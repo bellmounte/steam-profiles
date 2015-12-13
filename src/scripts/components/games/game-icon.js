@@ -10,7 +10,7 @@
 				'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + this.props.appid + '/' + this.props.icon + '.jpg' :
 				'http://placehold.it/32x32?text=+';
 
-			return React.createElement('img', {
+			return React.DOM.img({
 				alt: alt,
 				className: 'game-icon',
 				src: src
