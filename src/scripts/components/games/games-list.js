@@ -9,7 +9,7 @@
 	var sort_columns = [
 		{sort: 'name', text: 'Name'},
 		{sort: 'achievements', text: 'Achievements'},
-		{sort: 'owners', text: 'owners'}
+		{sort: 'owners', text: 'Owners'}
 	];
 
 	var sorts = {
