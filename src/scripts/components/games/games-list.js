@@ -26,13 +26,15 @@
 		}
 	}
 
+	var cache_games = [];
+
 	module.exports = React.createClass({
 		displayName: 'GamesList',
 
 		getInitialState: function() {
 			return {
 				selectedGame: GamesStore.getSelectedGame(),
-				games: [],
+				hasData: false,
 				sort: 'owners'
 			};
 		},
@@ -49,7 +51,8 @@
 
 			$.get('/api/steam/games', function(result) {
 				if (this.isMounted()) {
-					this.setState({games: result});
+					cache_games = result;
+					this.setState({hasData: true});
 				}
 			}.bind(this));
 		},
@@ -74,9 +77,9 @@
 				return React.createElement(GameItem, item);
 			};
 
-			if (this.state.games.length > 0) {
+			if (cache_games.length > 0) {
 				var sort = getSort(this.state.sort);
-				this.state.games.sort(sort);
+				cache_games.sort(sort);
 
 				return React.DOM.div(null,
 					React.createElement(SortHeader, {
@@ -85,7 +88,7 @@
 						click: this.handleSort
 					}),
 					React.createElement('ul', {className: 'games-list'},
-						this.state.games.map(createItem)
+						cache_games.map(createItem)
 					)
 				);
 			} else {

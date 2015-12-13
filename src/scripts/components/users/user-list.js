@@ -34,6 +34,8 @@
 		{sort: 'games', text: 'Games'}
 	];
 
+	var cache_users = [];
+
 	module.exports = React.createClass({
 		displayName: 'UserList',
 
@@ -41,7 +43,7 @@
 			return {
 				selectedUser: UsersStore.getSelectedUser(),
 				sort: 'playtime',
-				users: []
+				hasData: false
 			};
 		},
 
@@ -50,7 +52,8 @@
 
 			$.get('/api/steam/users', function(result) {
 				if (this.isMounted()) {
-					this.setState({users: result});
+					cache_users = result;
+					this.setState({hasData: true});
 				}
 			}.bind(this));
 		},
@@ -75,9 +78,9 @@
 				return React.createElement(User, {steamid: this.state.selectedUser});
 			}
 
-			if (this.state.users.length > 0) {
+			if (cache_users.length > 0) {
 				var sort = getSort(this.state.sort);
-				this.state.users.sort(sort);
+				cache_users.sort(sort);
 
 				return React.DOM.div(null,
 					React.createElement(SortHeader, {
@@ -86,7 +89,7 @@
 						click: this.handleSort
 					}),
 					React.DOM.ul({className: 'users-list'},
-						this.state.users.map(createItem)
+						cache_users.map(createItem)
 					)
 				);
 			} else {
