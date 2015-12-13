@@ -14,7 +14,7 @@
 			return sorts.name(a, b);
 		},
 		name: function (a, b) {
-			return a.personaname.toLowerCase() > b.personaname.toLowerCase();
+			return a.personaname.toLowerCase().localeCompare(b.personaname.toLowerCase());
 		},
 		playtime: function (a, b) {
 			if (a.count_playtime !== b.count_playtime) {
@@ -40,6 +40,7 @@
 	var createItem = function (item) {
 		item.type = 'user-list';
 		item.key = item.steamid;
+		item.uid = item.steamid;
 		return React.createElement(UserItem, item);
 	};
 
