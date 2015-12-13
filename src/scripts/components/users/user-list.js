@@ -4,6 +4,7 @@
 	var UserItem = require('./users-list-item');
 	var User = require('./user');
 	var UsersStore = require('../../stores/data/usersStore');
+	var SortHeader = require('../general/sort-header');
 
 	var sorts = {
 		games: function (a, b) {
@@ -39,10 +40,15 @@
 	var createItem = function (item) {
 		item.type = 'user-list';
 		item.key = item.steamid;
-		item.uid = item.steamid;
-
 		return React.createElement(UserItem, item);
 	};
+
+	var sort_columns = [
+		{sort: 'name', text: 'Name'},
+		{sort: 'achievements', text: 'Achievements'},
+		{sort: 'playtime', text: 'Playtime'},
+		{sort: 'games', text: 'Games'}
+	];
 
 	module.exports = React.createClass({
 		displayName: 'UserList',
@@ -87,15 +93,14 @@
 
 			if (this.state.users.length > 0) {
 				var sort = getSort(this.state.sort);
-
 				this.state.users.sort(sort);
+
 				return React.DOM.div(null,
-					React.DOM.div({className: 'header-sort'},
-						React.DOM.div({'data-sort':'name', onClick: this.handleSort}, 'Name'),
-						React.DOM.div({'data-sort':'achievements', onClick: this.handleSort}, 'Achievements'),
-						React.DOM.div({'data-sort':'playtime', onClick: this.handleSort}, 'Playtime'),
-						React.DOM.div({'data-sort':'games', onClick: this.handleSort}, 'Games')
-					),
+					React.createElement(SortHeader, {
+						items: sort_columns,
+						active: this.state.sort,
+						click: this.handleSort
+					}),
 					React.DOM.ul({className: 'users-list'},
 						this.state.users.map(createItem)
 					)
