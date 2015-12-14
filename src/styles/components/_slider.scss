@@ -1,0 +1,40 @@
+.slider {
+
+	.slider-prev,
+	.slider-next {
+		&:hover {
+			background: #fff;
+		}
+	}
+
+	.slider-prev {
+		border-radius: 0 8px 8px 0;
+		left: 0;
+		&:before {
+			content: '\f104';
+			display: inline-block;
+			font-family: 'FontAwesome';
+		}
+	}
+
+	.slider-next {
+		border-radius: 8px 0 0 8px;
+		right: 0;
+
+		&:before {
+			content: '\f105';
+			display: inline-block;
+			font-family: 'FontAwesome';
+		}
+	}
+
+	.slider-title {
+		&:after {
+			content: '\f105';
+			display: inline-block;
+			font-family: 'FontAwesome';
+			font-size: 1.75rem;
+			margin-left: 1rem;
+		}
+	}
+}
