@@ -25,7 +25,7 @@ var jshint_config = {
 	unused: true
 };
 
-gulp.task('default', ['html', 'css', 'js'], function() {});
+gulp.task('default', ['fonts', 'html', 'css', 'js'], function() {});
 
 function handleErrors () {
 	var args = Array.prototype.slice.call(arguments);
@@ -70,6 +70,12 @@ gulp.task('js', ['jshint'], function (callback) {
         callback();
     });
 });
+
+gulp.task('fonts', function() {
+    return gulp.src(['src/fonts/fa/fontawesome-webfont.*'])
+        .pipe(gulp.dest('public/fonts'));
+});
+
 
 gulp.task('watch', ['default'], function() {
 	gulp.watch('src/*.htm', ['html']);
