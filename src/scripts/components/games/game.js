@@ -11,8 +11,9 @@
 		return React.createElement(AchievementItem, achievement);
 	};
 
-	var GameName = require('./game-name');
+	var GameLaunchButton = require('./game-launch-button');
 	var GameLogo = require('./game-logo');
+	var GameName = require('./game-name');
 
 	module.exports = React.createClass({
 		displayName: 'Game',
@@ -40,7 +41,10 @@
 				return React.DOM.div({className: 'game'},
 					React.DOM.header({className: 'game-header'},
 						React.createElement(GameName, game),
-						React.createElement(GameLogo, game)
+						React.createElement(GameLogo, game),
+						React.DOM.div({className: 'game-launch'},
+							React.createElement(GameLaunchButton, this.props)
+						)
 					),
 					React.DOM.ul({className: 'game-achievements'},
 						achievements

@@ -12,10 +12,14 @@
 		float: right;
 	}
 
-	&:after {
-		content: '';
-		display: table;
+	.game-launch {
 		clear: both;
+		text-align: right;
+
+		.game-launch-button {
+			margin: .5rem 0;
+			width: 184px;
+		}
 	}
 }
 
@@ -28,7 +32,6 @@
 		+ .achievement-item {
 			margin-top: .25rem;
 		}
-
 
 		.achievement-logo {
 			display: inline-block;
