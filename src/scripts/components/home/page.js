@@ -1,10 +1,14 @@
 (function (React) {
 	'use strict';
 
+	var GamesSlider = require('../games/games-slider');
+
 	module.exports = React.createClass({
 		displayName: 'HomePage',
 		render: function () {
-			return React.createElement('div', {className: 'page page-home'}, 'Home Page');
+			return React.DOM.div({className: 'page page-home'},
+				React.createElement(GamesSlider)
+			);
 		}
 	});
 
