@@ -1,6 +1,8 @@
 (function () {
 	'use strict';
 
+	var isShifting = false;
+
 	function getLeft (element) {
 		var left = 0;
 		if (element.style.left.length > 0) {
@@ -10,6 +12,12 @@
 	}
 
 	function shift(element, direction, distance, callback) {
+		if (isShifting) {
+			return;
+		}
+
+		isShifting = true;
+
 		var start = null;
 		var left = getLeft(element);
 		var end = left + (distance * direction);
@@ -28,8 +36,11 @@
 			element.style.left = new_left + 'px';
 			if (progress < distance) {
 				window.requestAnimationFrame(step);
-			} else if (typeof callback === 'function') {
-				callback();
+			} else {
+				isShifting = false;
+				if (typeof callback === 'function') {
+					callback();
+				}
 			}
 		}
 		window.requestAnimationFrame(step);
@@ -37,11 +48,11 @@
 
 
 	module.exports = {
-		shiftLeft: function (element, distance) {
-			shift(element, -1, distance);
+		shiftLeft: function (element, distance, callback) {
+			shift(element, -1, distance, callback);
 		},
-		shiftRight: function (element, distance) {
-			shift(element, 1, distance);
+		shiftRight: function (element, distance, callback) {
+			shift(element, 1, distance, callback);
 		}
 	};
 })();

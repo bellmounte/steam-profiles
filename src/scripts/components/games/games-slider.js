@@ -49,7 +49,9 @@
 		},
 		handleArrow: function () {
 			this.addRandomGames();
-			this.setState({hasData: true});
+
+			// Force an update to display the new games.
+			this.forceUpdate();
 		},
 		addRandomGames: function () {
 			for (var i = 0; i < 12; i++) {

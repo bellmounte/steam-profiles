@@ -2,7 +2,6 @@
 	'use strict';
 
 	var SliderSubtray = require('./slider-subtray');
-	var shift = require('../../../util/shift');
 
 	var style_trays = {
 		height: '200px',
@@ -22,20 +21,6 @@
 
 	module.exports = React.createClass({
 		displayName: 'Slider Trays',
-		componentDidMount: function() {
-			var tray = this.refs.tray;
-			// TODO: Fix these references
-			var arrow_next = document.getElementsByClassName('slider-next')[0];
-			var arrow_prev = document.getElementsByClassName('slider-prev')[0];
-
-			arrow_next.addEventListener('click', function () {
-				shift.shiftLeft(tray, 1200);
-			});
-
-			arrow_prev.addEventListener('click', function () {
-				shift.shiftRight(tray, 1200);
-			});
-		},
 		render: function () {
 			var tray_items = [];
 			var items = this.props.items;
@@ -54,7 +39,7 @@
 			}
 
 			return React.DOM.div({className: 'slider-trays', style: style_trays},
-				React.DOM.div({className: 'slider-tray', style: style_tray, ref: 'tray'},
+				React.DOM.div({className: 'slider-tray', style: style_tray},
 					tray_items.map(createItem)
 				)
 			);
