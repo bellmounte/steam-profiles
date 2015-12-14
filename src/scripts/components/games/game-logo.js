@@ -13,7 +13,7 @@
 			var alt = (this.props.displayName) ? this.props.displayName : this.props.gameName;
 			var src = (this.props.logo) ?
 				'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/' + this.props.appid + '/' + this.props.logo + '.jpg' :
-				'http://placehold.it/184x69?text=Logo';
+				'/images/logo-game.png';
 
 			return React.DOM.img({
 				alt: alt,

@@ -6,7 +6,6 @@ var rename = require('gulp-rename');
 var path = require("path");
 var webpack = require("webpack");
 
-
 var jshint_config = {
 	bitwise: true,
 	browser: true,
@@ -25,7 +24,7 @@ var jshint_config = {
 	unused: true
 };
 
-gulp.task('default', ['fonts', 'html', 'css', 'js'], function() {});
+gulp.task('default', ['fonts', 'images', 'html', 'css', 'js'], function() {});
 
 function handleErrors () {
 	var args = Array.prototype.slice.call(arguments);
@@ -74,6 +73,11 @@ gulp.task('js', ['jshint'], function (callback) {
 gulp.task('fonts', function() {
     return gulp.src(['src/fonts/fa/fontawesome-webfont.*'])
         .pipe(gulp.dest('public/fonts'));
+});
+
+gulp.task('images', function() {
+    return gulp.src(['src/images/*.png'])
+        .pipe(gulp.dest('public/images'));
 });
 
 
