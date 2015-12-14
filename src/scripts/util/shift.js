@@ -16,7 +16,7 @@
 
 		function step(timestamp) {
 			if (!start) { start = timestamp; }
-			var progress = timestamp - start;
+			var progress = (timestamp - start) * 2;
 
 			var new_left;
 			if (direction === -1) {
