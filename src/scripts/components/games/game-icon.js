@@ -1,6 +1,11 @@
 (function (React) {
 	'use strict';
 
+	var style = {
+		height: '32px',
+		width: '32px'
+	};
+
 	module.exports = React.createClass({
 		displayName: 'Game Icon',
 		render: function () {
@@ -13,7 +18,8 @@
 			return React.DOM.img({
 				alt: alt,
 				className: 'game-icon',
-				src: src
+				src: src,
+				style: style
 			});
 		}
 	});
