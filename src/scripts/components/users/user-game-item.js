@@ -2,6 +2,7 @@
 	'use strict';
 
 	var GameIcon = require('../games/game-icon');
+	var GameLaunchButton = require('../games/game-launch-button');
 	var GameName = require('../games/game-name');
 	var InfoValueLabel = require('../general/info-value-label');
 
@@ -19,9 +20,7 @@
 					value: this.props.playtime_forever
 				}),
 				React.DOM.div({className: 'game-launch'},
-					React.DOM.a({className: 'button game-launch-button', href:'steam://run/' + this.props.appid },
-						'Launch'
-					)
+					React.createElement(GameLaunchButton, this.props)
 				)
 			);
 		}
