@@ -10,15 +10,16 @@ $user-list-item-height: 64px;
 %user-list-item-info-column {
 	@extend %user-list-item-info;
 
-	padding: .75rem 0 0;
+	padding: .25rem 0 0;
 	text-align: center;
-	width: 10%;
+	width: 12%;
 
 	.info-value {
 		font-size: 1.75rem;
 	}
 	.info-label {
 		font-size: .85rem;
+		white-space: nowrap;
 	}
 }
 
@@ -59,6 +60,7 @@ $user-list-item-height: 64px;
 
 		.playtime-info {
 			@extend %user-list-item-info-column;
+			width: 15%;
 		}
 
 		.games-info {
