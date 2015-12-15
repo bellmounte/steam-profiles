@@ -54,13 +54,15 @@
 			this.forceUpdate();
 		},
 		addRandomGames: function () {
-			for (var i = 0; i < 12; i++) {
-				var game = cache_games[random(0, cache_games.length - 1)];
-				items.push({
-					data: {appid: game.appid},
-					image: React.createElement(GameLogo, game),
-					onClick: this.handleClick
-				});
+			if (cache_games.length > 0) {
+				for (var i = 0; i < 12; i++) {
+					var game = cache_games[random(0, cache_games.length - 1)];
+					items.push({
+						data: {appid: game.appid},
+						image: React.createElement(GameLogo, game),
+						onClick: this.handleClick
+					});
+				}
 			}
 		},
 		render: function () {
