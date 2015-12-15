@@ -11,12 +11,18 @@
 		displayName: 'Slider Subtray',
 		render: function () {
 
-			style.left = (200 * this.props.index) + 'px';
+			var left_parent = 1200 * (this.props.currentShiftIndex - 1);
+			var left = (200 * this.props.index);
+			style.left = left + 'px';
 
-			return React.DOM.div({className: 'slider-subtray', style: style},
-				React.createElement(SliderItem, this.props.top),
-				React.createElement(SliderItem, this.props.bottom)
-			);
+			if (left >= left_parent && left <= left_parent + (1200*3)) {
+				return React.DOM.div({className: 'slider-subtray', style: style},
+					React.createElement(SliderItem, this.props.top),
+					React.createElement(SliderItem, this.props.bottom)
+				);
+			}
+
+			return null;
 		}
 	});
 })(window.React);

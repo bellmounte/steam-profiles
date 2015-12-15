@@ -62,8 +62,14 @@
 		render: function () {
 			var style_prev = (this.state.currentShiftIndex > 0) ? style_arrows : style_hidden;
 
+			var props_slider = {
+				currentShiftIndex: this.state.currentShiftIndex,
+				items: this.props.items,
+				title: this.props.title,
+			}
+
 			return React.DOM.div({className: 'slider', style: style, ref: 'slider'},
-				React.createElement(SliderContents, this.props),
+				React.createElement(SliderContents, props_slider),
 				React.DOM.a({className: 'slider-prev', style: style_prev, ref: 'arrow_prev'}),
 				React.DOM.a({className: 'slider-next', style: style_arrows, ref: 'arrow_next'})
 			);

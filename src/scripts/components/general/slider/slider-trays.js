@@ -31,6 +31,7 @@
 					var bottom = items[i+1];
 
 					tray_items.push({
+						currentShiftIndex: this.props.currentShiftIndex,
 						top: top,
 						bottom: bottom,
 						index: i/2
