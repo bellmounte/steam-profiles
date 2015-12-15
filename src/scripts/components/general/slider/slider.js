@@ -31,16 +31,22 @@
 			};
 		},
 		componentDidMount: function() {
-			var tray = this.refs.slider.getElementsByClassName('slider-tray')[0];
+			var slider = this.refs.slider;
+			var trays = slider.getElementsByClassName('slider-trays')[0];
+			var tray = trays.getElementsByClassName('slider-tray')[0];
 			var arrow_next = this.refs.arrow_next;
 			var arrow_prev = this.refs.arrow_prev;
+
+			var getDistance = function () {
+				return Math.floor(trays.clientWidth / 200) * 200;
+			};
 
 			arrow_next.addEventListener('click', function () {
 				if (this.props.onArrowRight) {
 					this.props.onArrowRight();
 				}
 
-				shift.shiftLeft(tray, 1200, function () {
+				shift.shiftLeft(tray, getDistance(), function () {
 					this.setState({
 						currentShiftIndex: this.state.currentShiftIndex + 1
 					});
@@ -52,7 +58,7 @@
 					this.props.onArrowLeft();
 				}
 
-				shift.shiftRight(tray, 1200, function () {
+				shift.shiftRight(tray, getDistance(), function () {
 					this.setState({
 						currentShiftIndex: this.state.currentShiftIndex - 1
 					});
@@ -66,7 +72,7 @@
 				currentShiftIndex: this.state.currentShiftIndex,
 				items: this.props.items,
 				title: this.props.title,
-			}
+			};
 
 			return React.DOM.div({className: 'slider', style: style, ref: 'slider'},
 				React.createElement(SliderContents, props_slider),

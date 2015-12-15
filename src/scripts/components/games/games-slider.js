@@ -54,19 +54,25 @@
 			this.forceUpdate();
 		},
 		addRandomGames: function () {
-			if (cache_games.length > 0) {
-				for (var i = 0; i < 12; i++) {
-					var game = cache_games[random(0, cache_games.length - 1)];
-					items.push({
-						data: {appid: game.appid},
-						image: React.createElement(GameLogo, game),
-						onClick: this.handleClick
-					});
+			if (this.isMounted) {
+				if (cache_games.length > 0) {
+					var slider = this.refs.slider;
+					var trays = slider.getElementsByClassName('slider-trays')[0];
+					var count_subtrays = 2 * (Math.ceil(trays.clientWidth / 200));
+
+					for (var i = 0; i < count_subtrays; i++) {
+						var game = cache_games[random(0, cache_games.length - 1)];
+						items.push({
+							data: {appid: game.appid},
+							image: React.createElement(GameLogo, game),
+							onClick: this.handleClick
+						});
+					}
 				}
 			}
 		},
 		render: function () {
-			return React.DOM.div({className: 'games-slider', style: style},
+			return React.DOM.div({className: 'games-slider', style: style, ref: 'slider'},
 				React.createElement(Slider, {
 					items: items,
 					title: 'Recommended Games',
