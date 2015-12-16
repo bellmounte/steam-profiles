@@ -1,0 +1,11 @@
+.game-launch-button {
+	&:hover {
+		color: #d2e885;
+	}
+
+	&:before {
+		@extend %fa;
+		content: '\f1b6';
+		margin-right: .5rem;
+	}
+}

@@ -11,9 +11,8 @@
 		border-radius: 0 8px 8px 0;
 		left: 0;
 		&:before {
+			@extend %fa;
 			content: '\f104';
-			display: inline-block;
-			font-family: 'FontAwesome';
 		}
 	}
 
@@ -22,17 +21,15 @@
 		right: 0;
 
 		&:before {
+			@extend %fa;
 			content: '\f105';
-			display: inline-block;
-			font-family: 'FontAwesome';
 		}
 	}
 
 	.slider-title {
 		&:after {
+			@extend %fa;
 			content: '\f105';
-			display: inline-block;
-			font-family: 'FontAwesome';
 			font-size: 1.75rem;
 			margin-left: 1rem;
 		}

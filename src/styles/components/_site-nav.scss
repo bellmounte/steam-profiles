@@ -12,6 +12,16 @@
 			border-left: 1px solid #000;
 		}
 
+		.nav-item-text {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 1.25rem;
+
+			&:before {
+				@extend %fa;
+				margin-right: .5rem;
+			}
+		}
+
 		.nav-item-button {
 			color: #67c1f5;
 			font-size: 1rem;
@@ -24,6 +34,24 @@
 			}
 		}
 	}
+
+	.nav-item-home .nav-item-text {
+		&:before {
+			content: '\f015';
+		}
+	}
+	.nav-item-games .nav-item-text {
+		&:before {
+			content: '\f11b';
+		}
+	}
+	.nav-item-users .nav-item-text {
+		&:before {
+			content: '\f007';
+		}
+	}
+
+
 }
 
 .nav-item {

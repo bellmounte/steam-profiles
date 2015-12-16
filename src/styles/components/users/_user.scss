@@ -18,6 +18,18 @@
 	.user-member-since,
 	.user-realname {
 		font-size: .9rem;
+
+		&:before {
+			@extend %fa;
+			margin-right: .5rem;
+		}
+	}
+
+	.user-member-since:before {
+		content: '\f1b7';
+	}
+	.user-realname:before {
+		content: '\f111';
 	}
 
 	&:after {
@@ -53,6 +65,7 @@
 			}
 
 			.game-info {
+				white-space: nowrap;
 				width: 60%;
 
 				.game-icon {
@@ -82,7 +95,6 @@
 
 			.game-launch {
 				text-align: center;
-				width: 100px;
 			}
 		}
 	}

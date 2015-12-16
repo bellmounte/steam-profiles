@@ -14,7 +14,7 @@
 		},
 		render: function () {
 			return (
-				React.DOM.li({className: 'nav-item'},
+				React.DOM.li({className: 'nav-item nav-item-' + this.props.uid},
 					React.DOM.button({className: 'nav-item-button', type: 'button', onClick: this.handleClick},
 						React.DOM.span({className: 'nav-item-text'},
 							this.props.name

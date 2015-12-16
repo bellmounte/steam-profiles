@@ -20,7 +20,7 @@
 			}
 
 			return React.DOM.button({
-				className: 'sort-button',
+				className: 'sort-button sort-button-' + this.props.sort,
 				'data-sort': this.props.sort,
 				onClick: this.props.onClick,
 				type: 'button',

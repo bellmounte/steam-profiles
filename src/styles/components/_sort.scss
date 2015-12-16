@@ -1,0 +1,28 @@
+.sort-button {
+	&:before {
+		@extend %fa;
+		margin-right: .5rem;
+	}
+}
+.sort-button-achievements {
+	&:before {
+		content: '\f091';
+	}
+}
+.page-games .sort-button-name,
+.sort-button-games {
+	&:before {
+		content: '\f11b';
+	}
+}
+.page-users .sort-button-name,
+.sort-button-owners {
+	&:before {
+		content: '\f0c0';
+	}
+}
+.sort-button-playtime {
+	&:before {
+		content: '\f017';
+	}
+}
