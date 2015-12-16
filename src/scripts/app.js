@@ -25,5 +25,4 @@
 
 	content.classList.remove('loading');
 	ReactDOM.render(React.createElement(App, null), content);
-
 })();

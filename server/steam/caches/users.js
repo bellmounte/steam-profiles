@@ -30,7 +30,7 @@
 		hasUser(steamid) {
 			return (typeof this.users[steamid] !== 'undefined');
 		}
-	}
+	};
 
 	const cache_users = new UsersCache();
 	module.exports = cache_users;

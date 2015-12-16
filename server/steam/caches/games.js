@@ -37,7 +37,7 @@
 		hasGame(appid) {
 			return (typeof this.games[appid] !== 'undefined');
 		}
-	}
+	};
 
 	const cache_games = new GamesCache();
 

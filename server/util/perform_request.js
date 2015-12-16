@@ -73,5 +73,5 @@
 			callback: callback
 		});
 		checkQueue();
-	}
+	};
 })();

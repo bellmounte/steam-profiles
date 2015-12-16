@@ -127,7 +127,7 @@
 												appid: appid,
 												playtime_2weeks: game.playtime_2weeks,
 												playtime_forever: game.playtime_forever
-											}
+											};
 										});
 									}
 								}

@@ -3,8 +3,8 @@ var sass = require('gulp-sass');
 var jshint = require('gulp-jshint');
 var minifycss = require('gulp-minify-css');
 var rename = require('gulp-rename');
-var path = require("path");
-var webpack = require("webpack");
+var path = require('path');
+var webpack = require('webpack');
 
 var jshint_config = {
 	bitwise: true,
