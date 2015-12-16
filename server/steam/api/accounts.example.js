@@ -3,7 +3,7 @@
 
     module.exports = {
     	steam: {
-    		key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXX' // https://steamcommunity.com/dev/apikey
+    		key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' // https://steamcommunity.com/dev/apikey
     	}
     };
 
