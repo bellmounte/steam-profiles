@@ -1,45 +1,43 @@
-(function () {
-	'use strict';
+'use strict';
 
-	var GamesCache = class {
-		constructor() {
-			this.games = {};
+const GamesCache = class {
+	constructor() {
+		this.games = {};
+	}
+
+	getGames () {
+		const _games = [];
+		Object.keys(this.games).forEach(function (appid) {
+			const game = this.games[appid];
+			_games.push(game.toGameListItem());
+		}.bind(this));
+		return _games;
+	}
+
+	getGame (appid) {
+		if (this.games[appid]) {
+			return this.games[appid].toGameItem();
 		}
+		return {};
+	}
 
-		getGames () {
-			let _games = [];
-			Object.keys(this.games).forEach(function (appid) {
-				let game = this.games[appid];
-				_games.push(game.toGameListItem());
-			}.bind(this));
-			return _games;
-		}
+	addGame (game) {
+		this.games[game.appid] = game;
+	}
 
-		getGame (appid) {
-			if (this.games[appid]) {
-				return this.games[appid].toGameItem();
-			}
-			return {};
-		}
+	updateGame (game) {
+		this.games[game.appid].update(game);
+	}
 
-		addGame (game) {
-			this.games[game.appid] = game;
-		}
+	removeGame (game) {
+		delete this.games[game.appid];
+	}
 
-		updateGame (game) {
-			this.games[game.appid].update(game);
-		}
+	hasGame(appid) {
+		return (typeof this.games[appid] !== 'undefined');
+	}
+};
 
-		removeGame (game) {
-			delete this.games[game.appid];
-		}
+const cache_games = new GamesCache();
 
-		hasGame(appid) {
-			return (typeof this.games[appid] !== 'undefined');
-		}
-	};
-
-	const cache_games = new GamesCache();
-
-	module.exports = cache_games;
-})();
+module.exports = cache_games;

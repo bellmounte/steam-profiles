@@ -3,7 +3,7 @@
 const api_steam = require('../steam/api/api');
 
 global.app.get('/api/steam/game/:appid', function (req, res) {
-	let appid = Number(req.params.appid);
+	const appid = Number(req.params.appid);
 
 	// Handle invalid appid
 	if (isNaN(appid)) {

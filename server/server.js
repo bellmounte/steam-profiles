@@ -10,7 +10,6 @@ app.use(express.static('public'));
 require('./routes/routes');
 
 // Start Server
-var server = app.listen(3000, function () {
-	var port = server.address().port;
-	console.log('Server Started at http://localhost:%s', port);
+const server = app.listen(3000, function () {
+	console.log('Server Started at http://localhost:%s', server.address().port);
 });
