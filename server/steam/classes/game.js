@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class {
+const Game = class {
 	constructor(game) {
 		this.appid = game.appid;
 		this.name = game.name;
@@ -61,3 +61,5 @@ module.exports = class {
 		}
 	}
 };
+
+export {Game};

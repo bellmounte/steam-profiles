@@ -1,7 +1,7 @@
 'use strict';
 
-const http = require('http');
-const querystring = require('querystring');
+import http from 'http';
+import querystring from 'querystring';
 
 const queue_request = [];
 let is_running = false;
@@ -66,7 +66,7 @@ function checkQueue () {
 	}
 }
 
-module.exports = function (args, callback) {
+export default function (args, callback) {
 	queue_request.push({
 		args: args,
 		callback: callback

@@ -32,4 +32,4 @@ const UsersCache = class {
 };
 
 const cache_users = new UsersCache();
-module.exports = cache_users;
+export {cache_users};

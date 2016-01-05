@@ -1,8 +1,8 @@
 'use strict';
 
-const cache_games = require('../caches/games');
+import {cache_games} from '../caches/games';
 
-module.exports = class {
+const User = class {
 	constructor(user) {
 		this.steamid = user.steamid;
 		this.personaname = user.personaname;
@@ -53,3 +53,5 @@ module.exports = class {
 		return result;
 	}
 };
+
+export {User};

@@ -1,9 +1,10 @@
 'use strict';
 
-const api_steam = require('../steam/api/api');
+import {API} from '../steam/api/api';
+import {app} from '../express';
 
-global.app.get('/api/steam/users', function (req, res) {
-	api_steam.getUsers(null, function (data) {
+app.get('/api/steam/users', function (req, res) {
+	API.getUsers(null, function (data) {
 		res.send(data);
 	});
 });

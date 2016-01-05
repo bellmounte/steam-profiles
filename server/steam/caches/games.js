@@ -39,5 +39,4 @@ const GamesCache = class {
 };
 
 const cache_games = new GamesCache();
-
-module.exports = cache_games;
+export {cache_games};

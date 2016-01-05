@@ -1,18 +1,18 @@
-
 'use strict';
 
 // Caches
-const cache_games = require('../caches/games');
-const cache_users = require('../caches/users');
+import {cache_games} from '../caches/games';
+import {cache_users} from '../caches/users';
 
 // Classes
-const Game = require('../classes/game');
-const User = require('../classes/user');
+import {Game} from '../classes/game';
+import {User} from '../classes/user';
 
 // Utilities
-const key = require('./accounts').steam.key;
-const toJSON = require('../../util/toJSON');
-const perform_request = require('../../util/perform_request');
+import {key_steam} from './accounts';
+import toJSON from '../../util/toJSON';
+import perform_request from '../../util/perform_request';
+
 
 const API = {
 	getGames: function (args, callback) {
@@ -34,7 +34,7 @@ const API = {
 			path: '/ISteamUserStats/GetSchemaForGame/v2/',
 			params: {
 				appid: appid,
-				key: key
+				key: key_steam
 			}
 		}, function (result) {
 			if (result.data) {
@@ -79,7 +79,7 @@ const API = {
 			path: '/ISteamUser/GetPlayerSummaries/v0002/',
 			params: {
 				steamids: steamid,
-				key: key
+				key: key_steam
 			}
 		}, function (result) {
 			if (result.data) {
@@ -98,7 +98,7 @@ const API = {
 							path: '/IPlayerService/GetOwnedGames/v0001/',
 							params: {
 								steamid: steamid,
-								key: key,
+								key: key_steam,
 								include_appinfo: 1,
 								include_played_free_games: 1
 							}
@@ -142,4 +142,4 @@ const API = {
 	}
 };
 
-module.exports = API;
+export {API};

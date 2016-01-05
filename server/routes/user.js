@@ -1,10 +1,11 @@
 'use strict';
 
-const api_steam = require('../steam/api/api');
+import {API} from '../steam/api/api';
+import {app} from '../express';
 
-global.app.get('/api/steam/user/:steamid', function (req, res) {
+app.get('/api/steam/user/:steamid', function (req, res) {
 	const steamid = req.params.steamid;
-	api_steam.getUserInfo({steamid: steamid}, function (data) {
+	API.getUserInfo({steamid: steamid}, function (data) {
 		res.send(data);
 	});
 });

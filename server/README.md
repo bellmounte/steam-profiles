@@ -7,7 +7,7 @@
 ## Startup
 - Run the following command to start the server:
 ```
-node server/server.js
+node server/run.js
 ```
 - Populate the data:
 ```

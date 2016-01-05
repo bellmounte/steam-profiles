@@ -1,7 +1,5 @@
 'use strict';
 
-module.exports = {
-	steam: {
-		key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' // https://steamcommunity.com/dev/apikey
-	}
-};
+const key_steam = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' // https://steamcommunity.com/dev/apikey
+
+export {key_steam};
