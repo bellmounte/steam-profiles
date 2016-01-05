@@ -1,42 +1,16 @@
-(function () {
-	'use strict';
+'use strict';
 
-	var express = require('express');
-	var app = express();
+const express = require('express');
+global.app = express();
 
-	// Static Web Pages and Assets
-	app.use(express.static('public'));
+// Static Web Pages and Assets
+app.use(express.static('public'));
 
-	// API Routes
-	var api_steam = require('./steam/api/api');
-	app.get('/api/steam/game/:appid', function (req, res) {
-		var appid = Number(req.params.appid);
-		// TODO: Handle isNaN(appid)
-		api_steam.getGameInfo({appid: appid}, function (data) {
-			res.send(data);
-		});
-	});
-	app.get('/api/steam/games', function (req, res) {
-		api_steam.getGames(null, function (data) {
-			res.send(data);
-		});
-	});
-	app.get('/api/steam/user/:steamid', function (req, res) {
-		var steamid = req.params.steamid;
-		api_steam.getUserInfo({steamid: steamid}, function (data) {
-			res.send(data);
-		});
-	});
-	app.get('/api/steam/users', function (req, res) {
-		api_steam.getUsers(null, function (data) {
-			res.send(data);
-		});
-	});
+// API Routes
+require('./routes/routes');
 
-	// Start Server
-	var server = app.listen(3000, function () {
-		var port = server.address().port;
-		console.log('Server Started at http://localhost:%s', port);
-	});
-
-})();
+// Start Server
+var server = app.listen(3000, function () {
+	var port = server.address().port;
+	console.log('Server Started at http://localhost:%s', port);
+});
