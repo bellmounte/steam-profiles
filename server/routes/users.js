@@ -5,6 +5,6 @@ import {app} from '../express';
 
 app.get('/api/steam/users', function (req, res) {
 	API.getUsers(null, function (data) {
-		res.send(data);
+		res.json(data);
 	});
 });

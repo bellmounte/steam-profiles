@@ -8,12 +8,12 @@ app.get('/api/steam/game/:appid', function (req, res) {
 
 	// Handle invalid appid
 	if (isNaN(appid)) {
-		return res.send({
+		return res.status(500).json({
 			error: 'Invalid appid'
 		});
 	}
 
 	API.getGameInfo({appid: appid}, function (data) {
-		res.send(data);
+		res.json(data);
 	});
 });

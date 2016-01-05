@@ -5,6 +5,6 @@ import {app} from '../express';
 
 app.get('/api/steam/games', function (req, res) {
 	API.getGames(null, function (data) {
-		res.send(data);
+		res.json(data);
 	});
 });
